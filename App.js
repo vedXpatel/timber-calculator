@@ -1,20 +1,59 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Home } from './pages/Home';
+import { Purchase } from "./pages/Purchase";
+import { JobWork } from "./pages/JobWork";
+import { Alert, Button } from 'react-native';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Purchase" component={Purchase}  options={({ navigation }) => ({
+          headerLeft: () => (
+              <Button title="Back" onPress={() => Alert.alert(
+                "Discard changes?",
+                "You have unsaved changes. Are you sure to discard them and leave the screen?",
+                [
+                  { text: "Don't leave", style: "cancel", onPress: () => { } },
+                  {
+                    text: "Discard",
+                    style: "destructive",
+                    onPress: () => {
+                      navigation.navigate('Home')
+                    },
+                  },
+                ]
+              )} />
+            ),
+          // Pass the navigation prop to the JobWork component
+          navigation: navigation
+        })} />
+        <Stack.Screen name="JobWork" component={JobWork} options={({ navigation }) => ({
+          headerLeft: () => (
+              <Button title="Back" onPress={() => Alert.alert(
+                "Discard changes?",
+                "You have unsaved changes. Are you sure to discard them and leave the screen?",
+                [
+                  { text: "Don't leave", style: "cancel", onPress: () => { } },
+                  {
+                    text: "Discard",
+                    style: "destructive",
+                    onPress: () => {
+                      navigation.navigate('Home')
+                    },
+                  },
+                ]
+              )} />
+            ),
+          // Pass the navigation prop to the JobWork component
+          navigation: navigation
+        })} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
