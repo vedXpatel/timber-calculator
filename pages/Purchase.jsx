@@ -11,8 +11,8 @@ import {
     Button,
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
-import { DataTable } from 'react-native-paper';
-import AsyncStorage from '@react-native-community/async-storage';
+import { DataTable } from "react-native-paper";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
@@ -106,6 +106,35 @@ export const Purchase = ({ navigation }) => {
         });
     };
 
+    const storeListInAsyncStorage = async (key, value) => {
+        try {
+            await AsyncStorage.setItem(key, JSON.stringify(value));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getListFromAsyncStorage = async (key) => {
+        try {
+            const value = await AsyncStorage.getItem(key);
+            if (value !== null) {
+                return JSON.parse(value);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const increaseAsyncStorageSize = async () => {
+        try {
+            await AsyncStorage.setItem("dummyKey", "dummyValue");
+            await AsyncStorage.removeItem("dummyKey");
+            await AsyncStorage.setMaxSize(100 * 1024 * 1024); // 100 MB
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const categorize = () => {
         for (let i = 0; i < list.length; i++) {
             if (list[i].girth < 12 && list[i].girth > 0) {
@@ -182,7 +211,7 @@ export const Purchase = ({ navigation }) => {
 
     useEffect(() => {
         getTotalPrice();
-    }, [one])
+    }, [one]);
 
     const getTotalPrice = () => {
         const onePrice = parseInt(one) * parseInt(oneToElevenPrice);
@@ -193,7 +222,7 @@ export const Purchase = ({ navigation }) => {
         const fivePrice = parseInt(five) * parseInt(ThirtyToThirtyFivePrice);
         const sixPrice = parseInt(six) * parseInt(ThirtySixToFortySevenPrice);
         const sevenPrice = parseInt(seven) * parseInt(FortyEightAbovePrice);
-        const isValidNumber = (value) => typeof value === 'number' && !isNaN(value);
+        const isValidNumber = (value) => typeof value === "number" && !isNaN(value);
 
         // Calculate the total price, considering undefined variables as 0
         const totalPrice =
@@ -216,7 +245,7 @@ export const Purchase = ({ navigation }) => {
             (seven ? seven : 0);
         setGrandCFT(totalCFT);
         setGrandPrice(totalPrice);
-    }
+    };
 
     return (
         <ScrollView style={styles.parentView}>
@@ -283,7 +312,19 @@ export const Purchase = ({ navigation }) => {
                                 returnKeyType={"done"}
                                 keyboardType="decimal-pad"
                                 onSubmitEditing={() => {
-                                    price2Ref.current ? price2Ref.current.focus() : price3Ref.current ? price3Ref.current.focus() : price4Ref.current ? price4Ref.current.focus() : price5Ref.current ? price5Ref.current.focus() : price6Ref.current ? price6Ref.current.focus() : price7Ref.current ? price7Ref.current.focus() : null;
+                                    price2Ref.current
+                                        ? price2Ref.current.focus()
+                                        : price3Ref.current
+                                            ? price3Ref.current.focus()
+                                            : price4Ref.current
+                                                ? price4Ref.current.focus()
+                                                : price5Ref.current
+                                                    ? price5Ref.current.focus()
+                                                    : price6Ref.current
+                                                        ? price6Ref.current.focus()
+                                                        : price7Ref.current
+                                                            ? price7Ref.current.focus()
+                                                            : null;
                                 }}
                                 ref={price1Ref}
                                 value={oneToElevenPrice}
@@ -300,7 +341,17 @@ export const Purchase = ({ navigation }) => {
                                 returnKeyType={"done"}
                                 keyboardType="decimal-pad"
                                 onSubmitEditing={() => {
-                                    price3Ref.current ? price3Ref.current.focus() : price4Ref.current ? price4Ref.current.focus() : price5Ref.current ? price5Ref.current.focus() : price6Ref.current ? price6Ref.current.focus() : price7Ref.current ? price7Ref.current.focus() : null;
+                                    price3Ref.current
+                                        ? price3Ref.current.focus()
+                                        : price4Ref.current
+                                            ? price4Ref.current.focus()
+                                            : price5Ref.current
+                                                ? price5Ref.current.focus()
+                                                : price6Ref.current
+                                                    ? price6Ref.current.focus()
+                                                    : price7Ref.current
+                                                        ? price7Ref.current.focus()
+                                                        : null;
                                 }}
                                 ref={price2Ref}
                                 value={TwelveToSeventeenPrice}
@@ -317,7 +368,15 @@ export const Purchase = ({ navigation }) => {
                                 returnKeyType={"done"}
                                 keyboardType="decimal-pad"
                                 onSubmitEditing={() => {
-                                    price4Ref.current ? price4Ref.current.focus() : price5Ref.current ? price5Ref.current.focus() : price6Ref.current ? price6Ref.current.focus() : price7Ref.current ? price7Ref.current.focus() : null;
+                                    price4Ref.current
+                                        ? price4Ref.current.focus()
+                                        : price5Ref.current
+                                            ? price5Ref.current.focus()
+                                            : price6Ref.current
+                                                ? price6Ref.current.focus()
+                                                : price7Ref.current
+                                                    ? price7Ref.current.focus()
+                                                    : null;
                                 }}
                                 ref={price3Ref}
                                 value={EighteenToTwentyThreePrice}
@@ -334,7 +393,13 @@ export const Purchase = ({ navigation }) => {
                                 returnKeyType={"done"}
                                 keyboardType="decimal-pad"
                                 onSubmitEditing={() => {
-                                    price5Ref.current ? price5Ref.current.focus() : price6Ref.current ? price6Ref.current.focus() : price7Ref.current ? price7Ref.current.focus() : null;
+                                    price5Ref.current
+                                        ? price5Ref.current.focus()
+                                        : price6Ref.current
+                                            ? price6Ref.current.focus()
+                                            : price7Ref.current
+                                                ? price7Ref.current.focus()
+                                                : null;
                                 }}
                                 ref={price4Ref}
                                 value={TwentyFourToTwentyNinePrice}
@@ -351,7 +416,11 @@ export const Purchase = ({ navigation }) => {
                                 returnKeyType={"done"}
                                 keyboardType="decimal-pad"
                                 onSubmitEditing={() => {
-                                    price6Ref.current ? price6Ref.current.focus() : price7Ref.current ? price7Ref.current.focus() : null;
+                                    price6Ref.current
+                                        ? price6Ref.current.focus()
+                                        : price7Ref.current
+                                            ? price7Ref.current.focus()
+                                            : null;
                                 }}
                                 ref={price5Ref}
                                 value={ThirtyToThirtyFivePrice}
@@ -384,8 +453,7 @@ export const Purchase = ({ navigation }) => {
                                 clearButtonMode="while-editing"
                                 returnKeyType={"done"}
                                 keyboardType="decimal-pad"
-                                onSubmitEditing={() => {
-                                }}
+                                onSubmitEditing={() => { }}
                                 ref={price7Ref}
                                 value={FortyEightAbovePrice}
                                 onChangeText={setFortyEightAbovePrice}
@@ -406,258 +474,697 @@ export const Purchase = ({ navigation }) => {
                 </View>
             )}
             {isInvoiceScreen && (
-                <View style={{ overflow: 'hidden' }}>
-                    {oneToEleven.length > 0 && <DataTable style={{ position: 'relative', left: -width / 5, width: width + width / 5, }} >
-                        <DataTable.Header style={{ borderBottomWidth: 1, borderBottomColor: 'black', borderColor: 'black', overflow: 'hidden' }}>
-                            <DataTable.Title textStyle={{ fontSize: 17, fontWeight: 'bold', }} numeric>Sr.</DataTable.Title>
-                            <DataTable.Title textStyle={{ fontSize: 17, fontWeight: 'bold' }} style={{ position: 'relative', left: 20, }} numeric>Length (ft)</DataTable.Title>
-                            <DataTable.Title textStyle={{ fontSize: 17, fontWeight: 'bold' }} style={{ position: 'relative', left: 20, }} numeric>Girth (in)</DataTable.Title>
-                            <DataTable.Title textStyle={{ fontSize: 17, fontWeight: 'bold', }} numeric>CFT</DataTable.Title>
-                        </DataTable.Header>
-                        {oneToEleven.map((item, index) => (
-                            <DataTable.Row key={index}>
-                                <DataTable.Cell textStyle={{ fontSize: 17, }} numeric>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell textStyle={{ fontSize: 17, }} numeric>{item.length}</DataTable.Cell>
-                                <DataTable.Cell textStyle={{ fontSize: 17, }} numeric>{item.girth}</DataTable.Cell>
-                                <DataTable.Cell textStyle={{ fontSize: 17, }} numeric>{(item.CFT).toFixed(4)}</DataTable.Cell>
+                <View style={{ overflow: "hidden" }}>
+                    {oneToEleven.length > 0 && (
+                        <DataTable
+                            style={{
+                                position: "relative",
+                                left: -width / 5,
+                                width: width + width / 5,
+                            }}
+                        >
+                            <DataTable.Header
+                                style={{
+                                    borderBottomWidth: 1,
+                                    borderBottomColor: "black",
+                                    borderColor: "black",
+                                    overflow: "hidden",
+                                }}
+                            >
+                                <DataTable.Title
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    Sr.
+                                </DataTable.Title>
+                                <DataTable.Title
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    style={{ position: "relative", left: 20 }}
+                                    numeric
+                                >
+                                    Length (ft)
+                                </DataTable.Title>
+                                <DataTable.Title
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    style={{ position: "relative", left: 20 }}
+                                    numeric
+                                >
+                                    Girth (in)
+                                </DataTable.Title>
+                                <DataTable.Title
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    CFT
+                                </DataTable.Title>
+                            </DataTable.Header>
+                            {oneToEleven.map((item, index) => (
+                                <DataTable.Row key={index}>
+                                    <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
+                                        {index + 1}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
+                                        {item.length}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
+                                        {item.girth}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
+                                        {item.CFT.toFixed(4)}
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            ))}
+                            <DataTable.Row
+                                style={{
+                                    borderTopWidth: 1,
+                                    borderColor: "black",
+                                    borderBottomWidth: 0,
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>Total CFT</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{one.toFixed(4)}</Text>
+                                </DataTable.Cell>
                             </DataTable.Row>
-                        ))}
-                        <DataTable.Row style={{ borderTopWidth: 1, borderColor: 'black', borderBottomWidth: 0, }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>Total CFT</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{one.toFixed(4)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                        <DataTable.Row style={{ borderBottomWidth: 1, borderBottomColor: 'black', borderColor: 'black', overflow: 'hidden' }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold', left: width / 3.3, width: width / 2, }} numeric>
-                                <Text>Total Price (@ {oneToElevenPrice})</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{(one * oneToElevenPrice).toFixed(2)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                    </DataTable>}
-                    {TwelveToSeventeen.length > 0 && <DataTable style={{ position: 'relative', left: -width / 5, width: width + width / 5, }}>
-                        {TwelveToSeventeen.map((item, index) => (
-                            <DataTable.Row key={index}>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{item.length}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{item.girth}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{(item.CFT).toFixed(4)}</DataTable.Cell>
+                            <DataTable.Row
+                                style={{
+                                    borderBottomWidth: 1,
+                                    borderBottomColor: "black",
+                                    borderColor: "black",
+                                    overflow: "hidden",
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{
+                                        fontSize: 17,
+                                        fontWeight: "bold",
+                                        left: width / 3.3,
+                                        width: width / 2,
+                                    }}
+                                    numeric
+                                >
+                                    <Text>Total Price (@ {oneToElevenPrice})</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{(one * oneToElevenPrice).toFixed(2)}</Text>
+                                </DataTable.Cell>
                             </DataTable.Row>
-                        ))}
-                        <DataTable.Row style={{ borderTopWidth: 1, borderColor: 'black', borderBottomWidth: 0, }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>Total CFT</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{two.toFixed(4)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                        <DataTable.Row style={{ borderBottomWidth: 1, borderBottomColor: 'black', borderColor: 'black', overflow: 'hidden' }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold', left: width / 3.3, width: width / 2, }} numeric>
-                                <Text>Total Price (@ {TwelveToSeventeenPrice})</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{(two * TwelveToSeventeenPrice).toFixed(2)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                    </DataTable>}
-                    {EighteenToTwentyThree.length > 0 && <DataTable style={{ position: 'relative', left: -width / 5, width: width + width / 5, }}>
-                        {EighteenToTwentyThree.map((item, index) => (
-                            <DataTable.Row key={index}>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{item.length}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{item.girth}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{(item.CFT).toFixed(4)}</DataTable.Cell>
+                        </DataTable>
+                    )}
+                    {TwelveToSeventeen.length > 0 && (
+                        <DataTable
+                            style={{
+                                position: "relative",
+                                left: -width / 5,
+                                width: width + width / 5,
+                            }}
+                        >
+                            {TwelveToSeventeen.map((item, index) => (
+                                <DataTable.Row key={index}>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {index + 1}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.length}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.girth}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.CFT.toFixed(4)}
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            ))}
+                            <DataTable.Row
+                                style={{
+                                    borderTopWidth: 1,
+                                    borderColor: "black",
+                                    borderBottomWidth: 0,
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>Total CFT</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{two.toFixed(4)}</Text>
+                                </DataTable.Cell>
                             </DataTable.Row>
-                        ))}
-                        <DataTable.Row style={{ borderTopWidth: 1, borderColor: 'black', borderBottomWidth: 0, }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>Total CFT</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{three.toFixed(4)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                        <DataTable.Row style={{ borderBottomWidth: 1, borderBottomColor: 'black', borderColor: 'black', overflow: 'hidden' }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold', left: width / 3.3, width: width / 2, }} numeric>
-                                <Text>Total Price (@ {EighteenToTwentyThreePrice})</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{(three * EighteenToTwentyThreePrice).toFixed(2)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                    </DataTable>
-                    }
-                    {TwentyFourToTwentyNine.length > 0 && <DataTable style={{ position: 'relative', left: -width / 5, width: width + width / 5, }}>
-                        {TwentyFourToTwentyNine.map((item, index) => (
-                            <DataTable.Row key={index}>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{item.length}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{item.girth}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{(item.CFT).toFixed(4)}</DataTable.Cell>
+                            <DataTable.Row
+                                style={{
+                                    borderBottomWidth: 1,
+                                    borderBottomColor: "black",
+                                    borderColor: "black",
+                                    overflow: "hidden",
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{
+                                        fontSize: 17,
+                                        fontWeight: "bold",
+                                        left: width / 3.3,
+                                        width: width / 2,
+                                    }}
+                                    numeric
+                                >
+                                    <Text>Total Price (@ {TwelveToSeventeenPrice})</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{(two * TwelveToSeventeenPrice).toFixed(2)}</Text>
+                                </DataTable.Cell>
                             </DataTable.Row>
-                        ))}
-                        <DataTable.Row style={{ borderTopWidth: 1, borderColor: 'black', borderBottomWidth: 0, }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>Total CFT</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{four.toFixed(4)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                        <DataTable.Row style={{ borderBottomWidth: 1, borderBottomColor: 'black', borderColor: 'black', overflow: 'hidden' }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold', left: width / 3.3, width: width / 2, }} numeric>
-                                <Text>Total Price (@ {TwentyFourToTwentyNinePrice})</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{(four * TwentyFourToTwentyNinePrice).toFixed(2)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                    </DataTable>}
-                    {ThirtyToThirtyFive.length > 0 && <DataTable style={{ position: 'relative', left: -width / 5, width: width + width / 5, }}>
-                        {ThirtyToThirtyFive.map((item, index) => (
-                            <DataTable.Row key={index}>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{item.length}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{item.girth}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{(item.CFT).toFixed(4)}</DataTable.Cell>
+                        </DataTable>
+                    )}
+                    {EighteenToTwentyThree.length > 0 && (
+                        <DataTable
+                            style={{
+                                position: "relative",
+                                left: -width / 5,
+                                width: width + width / 5,
+                            }}
+                        >
+                            {EighteenToTwentyThree.map((item, index) => (
+                                <DataTable.Row key={index}>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {index + 1}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.length}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.girth}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.CFT.toFixed(4)}
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            ))}
+                            <DataTable.Row
+                                style={{
+                                    borderTopWidth: 1,
+                                    borderColor: "black",
+                                    borderBottomWidth: 0,
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>Total CFT</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{three.toFixed(4)}</Text>
+                                </DataTable.Cell>
                             </DataTable.Row>
-                        ))}
-                        <DataTable.Row style={{ borderTopWidth: 1, borderColor: 'black', borderBottomWidth: 0, }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>Total CFT</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{five.toFixed(4)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                        <DataTable.Row style={{ borderBottomWidth: 1, borderBottomColor: 'black', borderColor: 'black', overflow: 'hidden' }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold', left: width / 3.3, width: width / 2, }} numeric>
-                                <Text>Total Price (@ {ThirtyToThirtyFivePrice})</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{(five * ThirtyToThirtyFivePrice).toFixed(2)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                    </DataTable>}
-                    {ThirtySixToFortySeven.length > 0 && <DataTable style={{ position: 'relative', left: -width / 5, width: width + width / 5, }}>
-                        {ThirtySixToFortySeven.map((item, index) => (
-                            <DataTable.Row key={index}>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{item.length}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{item.girth}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{(item.CFT).toFixed(4)}</DataTable.Cell>
+                            <DataTable.Row
+                                style={{
+                                    borderBottomWidth: 1,
+                                    borderBottomColor: "black",
+                                    borderColor: "black",
+                                    overflow: "hidden",
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{
+                                        fontSize: 17,
+                                        fontWeight: "bold",
+                                        left: width / 3.3,
+                                        width: width / 2,
+                                    }}
+                                    numeric
+                                >
+                                    <Text>Total Price (@ {EighteenToTwentyThreePrice})</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{(three * EighteenToTwentyThreePrice).toFixed(2)}</Text>
+                                </DataTable.Cell>
                             </DataTable.Row>
-                        ))}
-                        <DataTable.Row style={{ borderTopWidth: 1, borderColor: 'black', borderBottomWidth: 0, }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>Total CFT</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{six.toFixed(4)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                        <DataTable.Row style={{ borderBottomWidth: 1, borderBottomColor: 'black', borderColor: 'black', overflow: 'hidden' }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold', left: width / 3.3, width: width / 2, }} numeric>
-                                <Text>Total Price (@ {ThirtySixToFortySevenPrice})</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{(six * ThirtySixToFortySevenPrice).toFixed(2)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                    </DataTable>}
-                    {FortyEightAbove.length > 0 && <DataTable style={{ position: 'relative', left: -width / 5, width: width + width / 5, }}>
-                        {FortyEightAbove.map((item, index) => (
-                            <DataTable.Row key={index}>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{item.length}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{item.girth}</DataTable.Cell>
-                                <DataTable.Cell numeric textStyle={{ fontSize: 17, }}>{(item.CFT).toFixed(4)}</DataTable.Cell>
+                        </DataTable>
+                    )}
+                    {TwentyFourToTwentyNine.length > 0 && (
+                        <DataTable
+                            style={{
+                                position: "relative",
+                                left: -width / 5,
+                                width: width + width / 5,
+                            }}
+                        >
+                            {TwentyFourToTwentyNine.map((item, index) => (
+                                <DataTable.Row key={index}>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {index + 1}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.length}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.girth}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.CFT.toFixed(4)}
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            ))}
+                            <DataTable.Row
+                                style={{
+                                    borderTopWidth: 1,
+                                    borderColor: "black",
+                                    borderBottomWidth: 0,
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>Total CFT</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{four.toFixed(4)}</Text>
+                                </DataTable.Cell>
                             </DataTable.Row>
-                        ))}
-                        <DataTable.Row style={{ borderTopWidth: 1, borderColor: 'black', borderBottomWidth: 0, }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>Total CFT</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{seven.toFixed(4)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                        <DataTable.Row style={{ borderBottomWidth: 1, borderBottomColor: 'black', borderColor: 'black', overflow: 'hidden' }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold', left: width / 3.3, width: width / 2, }} numeric>
-                                <Text>Total Price (@ {FortyEightAbovePrice})</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>:</Text>
-                            </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
-                                <Text>{(seven * FortyEightAbovePrice).toFixed(2)}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>
-                    </DataTable>}
-                    <DataTable style={{ position: 'relative', left: -width / 5, width: width + width / 5, }}>
-                        <DataTable.Row style={{ borderBottomWidth: 1, borderColor: 'black', overflow: 'hidden' }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold', left: width / 3.3, width: width / 2, }} numeric>
+                            <DataTable.Row
+                                style={{
+                                    borderBottomWidth: 1,
+                                    borderBottomColor: "black",
+                                    borderColor: "black",
+                                    overflow: "hidden",
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{
+                                        fontSize: 17,
+                                        fontWeight: "bold",
+                                        left: width / 3.3,
+                                        width: width / 2,
+                                    }}
+                                    numeric
+                                >
+                                    <Text>Total Price (@ {TwentyFourToTwentyNinePrice})</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{(four * TwentyFourToTwentyNinePrice).toFixed(2)}</Text>
+                                </DataTable.Cell>
+                            </DataTable.Row>
+                        </DataTable>
+                    )}
+                    {ThirtyToThirtyFive.length > 0 && (
+                        <DataTable
+                            style={{
+                                position: "relative",
+                                left: -width / 5,
+                                width: width + width / 5,
+                            }}
+                        >
+                            {ThirtyToThirtyFive.map((item, index) => (
+                                <DataTable.Row key={index}>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {index + 1}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.length}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.girth}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.CFT.toFixed(4)}
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            ))}
+                            <DataTable.Row
+                                style={{
+                                    borderTopWidth: 1,
+                                    borderColor: "black",
+                                    borderBottomWidth: 0,
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>Total CFT</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{five.toFixed(4)}</Text>
+                                </DataTable.Cell>
+                            </DataTable.Row>
+                            <DataTable.Row
+                                style={{
+                                    borderBottomWidth: 1,
+                                    borderBottomColor: "black",
+                                    borderColor: "black",
+                                    overflow: "hidden",
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{
+                                        fontSize: 17,
+                                        fontWeight: "bold",
+                                        left: width / 3.3,
+                                        width: width / 2,
+                                    }}
+                                    numeric
+                                >
+                                    <Text>Total Price (@ {ThirtyToThirtyFivePrice})</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{(five * ThirtyToThirtyFivePrice).toFixed(2)}</Text>
+                                </DataTable.Cell>
+                            </DataTable.Row>
+                        </DataTable>
+                    )}
+                    {ThirtySixToFortySeven.length > 0 && (
+                        <DataTable
+                            style={{
+                                position: "relative",
+                                left: -width / 5,
+                                width: width + width / 5,
+                            }}
+                        >
+                            {ThirtySixToFortySeven.map((item, index) => (
+                                <DataTable.Row key={index}>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {index + 1}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.length}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.girth}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.CFT.toFixed(4)}
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            ))}
+                            <DataTable.Row
+                                style={{
+                                    borderTopWidth: 1,
+                                    borderColor: "black",
+                                    borderBottomWidth: 0,
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>Total CFT</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{six.toFixed(4)}</Text>
+                                </DataTable.Cell>
+                            </DataTable.Row>
+                            <DataTable.Row
+                                style={{
+                                    borderBottomWidth: 1,
+                                    borderBottomColor: "black",
+                                    borderColor: "black",
+                                    overflow: "hidden",
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{
+                                        fontSize: 17,
+                                        fontWeight: "bold",
+                                        left: width / 3.3,
+                                        width: width / 2,
+                                    }}
+                                    numeric
+                                >
+                                    <Text>Total Price (@ {ThirtySixToFortySevenPrice})</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{(six * ThirtySixToFortySevenPrice).toFixed(2)}</Text>
+                                </DataTable.Cell>
+                            </DataTable.Row>
+                        </DataTable>
+                    )}
+                    {FortyEightAbove.length > 0 && (
+                        <DataTable
+                            style={{
+                                position: "relative",
+                                left: -width / 5,
+                                width: width + width / 5,
+                            }}
+                        >
+                            {FortyEightAbove.map((item, index) => (
+                                <DataTable.Row key={index}>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {index + 1}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.length}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.girth}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+                                        {item.CFT.toFixed(4)}
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            ))}
+                            <DataTable.Row
+                                style={{
+                                    borderTopWidth: 1,
+                                    borderColor: "black",
+                                    borderBottomWidth: 0,
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>Total CFT</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{seven.toFixed(4)}</Text>
+                                </DataTable.Cell>
+                            </DataTable.Row>
+                            <DataTable.Row
+                                style={{
+                                    borderBottomWidth: 1,
+                                    borderBottomColor: "black",
+                                    borderColor: "black",
+                                    overflow: "hidden",
+                                }}
+                            >
+                                <DataTable.Cell
+                                    textStyle={{
+                                        fontSize: 17,
+                                        fontWeight: "bold",
+                                        left: width / 3.3,
+                                        width: width / 2,
+                                    }}
+                                    numeric
+                                >
+                                    <Text>Total Price (@ {FortyEightAbovePrice})</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>:</Text>
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                    textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                    numeric
+                                >
+                                    <Text>{(seven * FortyEightAbovePrice).toFixed(2)}</Text>
+                                </DataTable.Cell>
+                            </DataTable.Row>
+                        </DataTable>
+                    )}
+                    <DataTable
+                        style={{
+                            position: "relative",
+                            left: -width / 5,
+                            width: width + width / 5,
+                        }}
+                    >
+                        <DataTable.Row
+                            style={{
+                                borderBottomWidth: 1,
+                                borderColor: "black",
+                                overflow: "hidden",
+                            }}
+                        >
+                            <DataTable.Cell
+                                textStyle={{
+                                    fontSize: 17,
+                                    fontWeight: "bold",
+                                    left: width / 3.3,
+                                    width: width / 2,
+                                }}
+                                numeric
+                            >
                                 <Text>Grand CFT </Text>
                             </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
+                            <DataTable.Cell
+                                textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                numeric
+                            >
                                 <Text>:</Text>
                             </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
+                            <DataTable.Cell
+                                textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                numeric
+                            >
                                 <Text>{grandCFT.toFixed(4)}</Text>
                             </DataTable.Cell>
                         </DataTable.Row>
-                        <DataTable.Row style={{ borderBottomWidth: 1, borderBottomColor: 'black', borderColor: 'black', overflow: 'hidden' }}>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold', left: width / 3.3, width: width / 2, }} numeric>
+                        <DataTable.Row
+                            style={{
+                                borderBottomWidth: 1,
+                                borderBottomColor: "black",
+                                borderColor: "black",
+                                overflow: "hidden",
+                            }}
+                        >
+                            <DataTable.Cell
+                                textStyle={{
+                                    fontSize: 17,
+                                    fontWeight: "bold",
+                                    left: width / 3.3,
+                                    width: width / 2,
+                                }}
+                                numeric
+                            >
                                 <Text>Grand Price</Text>
                             </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
+                            <DataTable.Cell
+                                textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                numeric
+                            >
                                 <Text>:</Text>
                             </DataTable.Cell>
-                            <DataTable.Cell textStyle={{ fontSize: 17, fontWeight: 'bold' }} numeric>
+                            <DataTable.Cell
+                                textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                                numeric
+                            >
                                 <Text>{grandPrice.toFixed(2)}</Text>
                             </DataTable.Cell>
                         </DataTable.Row>
