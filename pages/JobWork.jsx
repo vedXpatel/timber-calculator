@@ -79,9 +79,9 @@ export const JobWork = () => {
                 keyboardType='decimal-pad'
                 clearButtonMode='while-editing'
                 returnKeyType={'done'}
-            style={styles.input}
-            value={price}
-            onChangeText={setPrice}
+                style={styles.input}
+                value={price}
+                onChangeText={setPrice}
         />
     <Button title="Calculate" onPress={() => {
         calculateTotalValues();
