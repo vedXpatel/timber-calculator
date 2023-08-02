@@ -62,12 +62,6 @@ export const Purchase = ({ navigation }) => {
 
     const [list, setList] = useState([]);
 
-    const [page, setPage] = useState(0);
-    const [numberOfItemsPerPageList] = useState([2, 3, 4]);
-    const [itemsPerPage, onItemsPerPageChange] = useState(
-        numberOfItemsPerPageList[0]
-    );
-
     const [grandCFT, setGrandCFT] = useState(0);
     const [grandPrice, setGrandPrice] = useState(0);
 
