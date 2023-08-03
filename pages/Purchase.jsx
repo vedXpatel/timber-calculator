@@ -17,11 +17,7 @@ import {Table} from '../components/Table';
 import {GrandCalculations} from "../components/GrandCalculations";
 import {TableHeader} from "../components/TableHeader";
 import ThermalPrinterModule from 'react-native-thermal-printer';
-import {
-    USBPrinter,
-    NetPrinter,
-    BLEPrinter,
-} from "react-native-thermal-receipt-printer";
+import { BLEPrinter } from "react-native-thermal-receipt-printer";
 
 
 const height = Dimensions.get("window").height;
@@ -132,11 +128,11 @@ export const Purchase = ({ navigation }) => {
     }
 
     const printTextTest = () => {
-        currentPrinter && USBPrinter.printText("<C>sample text</C>\n");
+        currentPrinter && BLEPrinter.printText("<C>sample text</C>\n");
     }
 
     const printBillTest = () => {
-        currentPrinter && USBPrinter.printBill("<C>sample bill</C>");
+        currentPrinter && BLEPrinter.printBill("<C>sample bill</C>");
     }
 
 
