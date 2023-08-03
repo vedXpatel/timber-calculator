@@ -564,6 +564,10 @@ export const Purchase = ({ navigation }) => {
                     {ThirtySixToFortySeven.length > 0 && <Table data={ThirtySixToFortySeven} cft={six} price={ThirtySixToFortySevenPrice}/>}
                     {FortyEightAbove.length > 0 && <Table data={FortyEightAbove} cft={seven} price={FortyEightAbovePrice}/>}
                     <GrandCalculations grandCFT={grandCFT} grandPrice={grandPrice}/>
+                    <TouchableOpacity style={styles.printButton} onPress={() => console.log('printed')}>
+                        <Text style={{color:'white',fontSize:20,alignSelf:'center'}}>Print</Text>
+                    </TouchableOpacity>
+                    {/*<Button title='Print' style={styles.printButton} onPress={() => console.log('printed')}/>*/}
                 </View>
             )}
         </ScrollView>
@@ -599,4 +603,13 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 20,
     },
+    printButton: {
+        backgroundColor: '#00d1fd',
+        color:'white',
+        width:width/5,
+        alignItems:'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        flex:1,
+    }
 });
