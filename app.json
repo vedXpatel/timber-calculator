@@ -21,7 +21,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions" : ["android.permission.INTERNET","android.permission.BLUETOOTH","android.permission.BLUETOOTH_ADMIN"]
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Table} from '../components/Table';
 import {GrandCalculations} from "../components/GrandCalculations";
 import {TableHeader} from "../components/TableHeader";
+import ThermalPrinterModule from 'react-native-thermal-printer';
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
@@ -88,6 +89,26 @@ export const Purchase = ({ navigation }) => {
 
         return () => backHandler.remove();
     }, []);
+
+    // useEffect(() => {
+    //     ThermalPrinterModule.defaultConfig.ip = '192.168.100.246';
+    //     ThermalPrinterModule.defaultConfig.port = 9100;
+    //     ThermalPrinterModule.defaultConfig.autoCut = false;
+    //     ThermalPrinterModule.defaultConfig.timeout = 30000; // in mill
+    // },[]);
+
+    const printReceipt = async() => {
+        // inside async function
+        try {
+            await ThermalPrinterModule.printBluetooth({
+                payload: 'hello world',
+                printerNbrCharactersPerLine: 38,
+            });
+        } catch (err) {
+            //error handling
+            console.log(err.message);
+        }
+    }
 
     const calculateCft = () => {
         const CFT = (length * girth * girth) / 2304;
@@ -564,10 +585,9 @@ export const Purchase = ({ navigation }) => {
                     {ThirtySixToFortySeven.length > 0 && <Table data={ThirtySixToFortySeven} cft={six} price={ThirtySixToFortySevenPrice}/>}
                     {FortyEightAbove.length > 0 && <Table data={FortyEightAbove} cft={seven} price={FortyEightAbovePrice}/>}
                     <GrandCalculations grandCFT={grandCFT} grandPrice={grandPrice}/>
-                    <TouchableOpacity style={styles.printButton} onPress={() => console.log('printed')}>
+                    <TouchableOpacity style={styles.printButton} onPress={() => printReceipt()}>
                         <Text style={{color:'white',fontSize:20,alignSelf:'center'}}>Print</Text>
                     </TouchableOpacity>
-                    {/*<Button title='Print' style={styles.printButton} onPress={() => console.log('printed')}/>*/}
                 </View>
             )}
         </ScrollView>
@@ -610,6 +630,6 @@ const styles = StyleSheet.create({
         alignItems:'center',
         alignSelf: 'center',
         justifyContent: 'center',
-        flex:1,
+        position:'relative',
     }
 });
