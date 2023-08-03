@@ -1,6 +1,9 @@
 import React from 'react';
 import {DataTable} from "react-native-paper";
-import {Text} from "react-native";
+import {Text, Dimensions} from "react-native";
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 export const GrandCalculations = (props) => {
     const {grandCFT, grandPrice} = props;
