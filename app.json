@@ -22,11 +22,6 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.INTERNET",
-        "android.permission.BLUETOOTH",
-        "android.permission.BLUETOOTH_ADMIN"
-      ],
       "package": "com.vedxpatel.timber"
     },
     "web": {
