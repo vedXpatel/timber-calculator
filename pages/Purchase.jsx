@@ -17,7 +17,6 @@ import {Table} from '../components/Table';
 import {GrandCalculations} from "../components/GrandCalculations";
 import {TableHeader} from "../components/TableHeader";
 import ThermalPrinterModule from 'react-native-thermal-printer';
-import { BLEPrinter } from "react-native-thermal-receipt-printer";
 
 
 const height = Dimensions.get("window").height;
@@ -115,25 +114,25 @@ export const Purchase = ({ navigation }) => {
     const [printers, setPrinters] = useState([]);
     const [currentPrinter, setCurrentPrinter] = useState();
 
-    useEffect(() => {
-        BLEPrinter.init().then(()=> {
-            BLEPrinter.getDeviceList().then(setPrinters);
-        });
-    }, []);
+    // useEffect(() => {
+    //     BLEPrinter.init().then(()=> {
+    //         BLEPrinter.getDeviceList().then(setPrinters);
+    //     });
+    // }, []);
 
-    const connectPrinter = (printer) => {
-        BLEPrinter.connectPrinter(printer.inner_mac_address).then(
-            setCurrentPrinter,
-            error => console.warn(error))
-    }
+    // const connectPrinter = (printer) => {
+    //     BLEPrinter.connectPrinter(printer.inner_mac_address).then(
+    //         setCurrentPrinter,
+    //         error => console.warn(error))
+    // }
 
-    const printTextTest = () => {
-        currentPrinter && BLEPrinter.printText("<C>sample text</C>\n");
-    }
-
-    const printBillTest = () => {
-        currentPrinter && BLEPrinter.printBill("<C>sample bill</C>");
-    }
+    // const printTextTest = () => {
+    //     currentPrinter && BLEPrinter.printText("<C>sample text</C>\n");
+    // }
+    //
+    // const printBillTest = () => {
+    //     currentPrinter && BLEPrinter.printBill("<C>sample bill</C>");
+    // }
 
 
     const calculateCft = () => {
@@ -611,24 +610,24 @@ export const Purchase = ({ navigation }) => {
                     {ThirtySixToFortySeven.length > 0 && <Table data={ThirtySixToFortySeven} cft={six} price={ThirtySixToFortySevenPrice}/>}
                     {FortyEightAbove.length > 0 && <Table data={FortyEightAbove} cft={seven} price={FortyEightAbovePrice}/>}
                     <GrandCalculations grandCFT={grandCFT} grandPrice={grandPrice}/>
-                    {/*<TouchableOpacity style={styles.printButton} onPress={() => printReceipt()}>*/}
-                    {/*    <Text style={{color:'white',fontSize:20,alignSelf:'center'}}>Print</Text>*/}
-                    {/*</TouchableOpacity>*/}
-                    <View>
-                        {
-                            printers.map(printer => (
-                                <TouchableOpacity key={printer.inner_mac_address} onPress={() => connectPrinter(printer)}>
-                                    {`device_name: ${printer.device_name}, inner_mac_address: ${printer.inner_mac_address}`}
-                                </TouchableOpacity>
-                            ))
-                        }
-                        <TouchableOpacity onPress={printTextTest}>
-                            <Text>Print Text</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={printBillTest}>
-                            <Text>Print Bill Text</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity style={styles.printButton} onPress={() => printReceipt()}>
+                        <Text style={{color:'white',fontSize:20,alignSelf:'center'}}>Print</Text>
+                    </TouchableOpacity>
+                    {/*<View>*/}
+                    {/*    {*/}
+                    {/*        printers.map(printer => (*/}
+                    {/*            <TouchableOpacity key={printer.inner_mac_address} onPress={() => connectPrinter(printer)}>*/}
+                    {/*                {`device_name: ${printer.device_name}, inner_mac_address: ${printer.inner_mac_address}`}*/}
+                    {/*            </TouchableOpacity>*/}
+                    {/*        ))*/}
+                    {/*    }*/}
+                    {/*    <TouchableOpacity onPress={printTextTest}>*/}
+                    {/*        <Text>Print Text</Text>*/}
+                    {/*    </TouchableOpacity>*/}
+                    {/*    <TouchableOpacity onPress={printBillTest}>*/}
+                    {/*        <Text>Print Bill Text</Text>*/}
+                    {/*    </TouchableOpacity>*/}
+                    {/*</View>*/}
                 </View>
             )}
         </ScrollView>
