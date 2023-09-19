@@ -5448,11 +5448,6 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-native-bluetooth-escpos-printer@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/react-native-bluetooth-escpos-printer/-/react-native-bluetooth-escpos-printer-0.0.5.tgz#45a31d37c213f95f2cc590cebcb48e0574ce1b45"
-  integrity sha512-a+GTlz8dctb48wkoJ8woE7gV24NCOoA13J95A+RFEKhjONEWf3/dP5pIqrrlO5fsf/2QYDeMfU3P8bIVQoEqig==
-
 react-native-paper@^5.9.1:
   version "5.9.1"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-5.9.1.tgz#e77d8ecda6e41783cf781ead5c2bbcc9ce26f44b"
