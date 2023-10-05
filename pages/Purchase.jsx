@@ -16,7 +16,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Table} from '../components/Table';
 import {GrandCalculations} from "../components/GrandCalculations";
 import {TableHeader} from "../components/TableHeader";
-import ThermalPrinterModule from 'react-native-thermal-printer';
+// import Bluetooth from "./Bluetooth";
+import * as MediaLibrary from 'expo-media-library';
+import { captureRef } from 'react-native-view-shot';
+// import ThermalPrinterModule from 'react-native-thermal-printer';
 
 
 const height = Dimensions.get("window").height;
@@ -25,7 +28,11 @@ const width = Dimensions.get("window").width;
 export const Purchase = ({ navigation }) => {
     const [length, setLength] = useState();
     const [girth, setGirth] = useState();
-
+    const [status, requestPermission] = MediaLibrary.usePermissions();
+    if (status === null) {
+        requestPermission();
+      }
+      const imageRef = useRef();
     const [oneToEleven, setOneToEleven] = useState([]);
     const [TwelveToSeventeen, setTwelveToSeventeen] = useState([]);
     const [EighteenToTwentyThree, setEighteenToTwentyThree] = useState([]);
@@ -98,18 +105,18 @@ export const Purchase = ({ navigation }) => {
     //     ThermalPrinterModule.defaultConfig.timeout = 30000; // in mill
     // },[]);
 
-    const printReceipt = async() => {
-        // inside async function
-        try {
-            await ThermalPrinterModule.printBluetooth({
-                payload: 'hello world',
-                printerNbrCharactersPerLine: 38,
-            });
-        } catch (err) {
-            //error handling
-            console.log(err.message);
-        }
-    }
+    // const printReceipt = async() => {
+    //     // inside async function
+    //     try {
+    //         await ThermalPrinterModule.printBluetooth({
+    //             payload: 'hello world',
+    //             printerNbrCharactersPerLine: 38,
+    //         });
+    //     } catch (err) {
+    //         //error handling
+    //         console.log(err.message);
+    //     }
+    // }
 
     const [printers, setPrinters] = useState([]);
     const [currentPrinter, setCurrentPrinter] = useState();
@@ -276,6 +283,7 @@ export const Purchase = ({ navigation }) => {
             (fivePrice ? fivePrice : 0) +
             (sixPrice ? sixPrice : 0) +
             (sevenPrice ? sevenPrice : 0);
+        setGrandPrice(totalPrice);
 
         // Calculate the total CFT, considering undefined variables as 0
         const totalCFT =
@@ -287,8 +295,32 @@ export const Purchase = ({ navigation }) => {
             (six ? six : 0) +
             (seven ? seven : 0);
         setGrandCFT(totalCFT);
-        setGrandPrice(totalPrice);
     };
+
+    // get height of table view
+    const [tableHeight, setTableHeight] = useState(0);
+    const onLayout=(event)=> {
+        const {x, y, height, width} = event.nativeEvent.layout;
+        setTableHeight(height);
+    }
+
+    // save view as local media in the device
+    const onSaveImageAsync = async () => {
+        console.log(`tableHeight: ${tableHeight}`);
+        try {
+          const localUri = await captureRef(imageRef, {
+            height: 440,
+            quality: 1,
+          });
+    
+          await MediaLibrary.saveToLibraryAsync(localUri);
+          if (localUri) {
+            alert("Saved!");
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      };
 
     return (
         <ScrollView style={styles.parentView}>
@@ -517,7 +549,7 @@ export const Purchase = ({ navigation }) => {
                 </View>
             )}
             {isInvoiceScreen && (
-                <View style={{ overflow: "hidden" }}>
+                <View ref={imageRef} onLayout={onLayout} style={{ overflow: "hidden" }}>
                     {oneToEleven.length > 0 && (
                         <DataTable
                             style={{
@@ -610,7 +642,7 @@ export const Purchase = ({ navigation }) => {
                     {ThirtySixToFortySeven.length > 0 && <Table data={ThirtySixToFortySeven} cft={six} price={ThirtySixToFortySevenPrice}/>}
                     {FortyEightAbove.length > 0 && <Table data={FortyEightAbove} cft={seven} price={FortyEightAbovePrice}/>}
                     <GrandCalculations grandCFT={grandCFT} grandPrice={grandPrice}/>
-                    <TouchableOpacity style={styles.printButton} onPress={() => printReceipt()}>
+                    <TouchableOpacity style={styles.printButton} onPress={onSaveImageAsync}>
                         <Text style={{color:'white',fontSize:20,alignSelf:'center'}}>Print</Text>
                     </TouchableOpacity>
                     {/*<View>*/}
