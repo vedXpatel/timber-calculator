@@ -309,7 +309,7 @@ export const Purchase = ({ navigation }) => {
         console.log(`tableHeight: ${tableHeight}`);
         try {
           const localUri = await captureRef(imageRef, {
-            height: 440,
+            height: tableHeight,
             quality: 1,
           });
     
