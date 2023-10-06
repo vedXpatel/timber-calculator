@@ -279,7 +279,7 @@ export const Purchase = ({ navigation }) => {
 
   // adding to auto print album
   async function saveFile(filePath) {
-    const albumName = 'auto print';
+    const albumName = "auto print";
     const permission = await MediaLibrary.requestPermissionsAsync();
 
     let asset = null;
@@ -287,7 +287,7 @@ export const Purchase = ({ navigation }) => {
       try {
         asset = await MediaLibrary.createAssetAsync(filePath);
       } catch (e) {
-        console.error('MediaLibrary.createAssetAsync failed', e);
+        console.error("MediaLibrary.createAssetAsync failed", e);
       }
 
       if (asset) {
@@ -309,10 +309,10 @@ export const Purchase = ({ navigation }) => {
           });
           asset = await assetResult.assets[0];
         } catch (e) {
-          console.error(' failed', e);
+          console.error(" failed", e);
         }
       } else {
-        console.error('unable to use MediaLibrary, can not create assets');
+        console.error("unable to use MediaLibrary, can not create assets");
       }
     }
   }
