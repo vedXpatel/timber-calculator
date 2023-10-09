@@ -4,7 +4,6 @@ import { Home } from './pages/Home';
 import { Purchase } from "./pages/Purchase";
 import { JobWork } from "./pages/JobWork";
 import { Alert, Button } from 'react-native';
-import { Print } from './pages/Print';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,7 +52,6 @@ export default function App() {
           // Pass the navigation prop to the JobWork component
           navigation: navigation
         })} />
-          <Stack.Screen name="Print" component={Print}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
