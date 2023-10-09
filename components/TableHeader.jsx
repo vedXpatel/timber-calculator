@@ -1,5 +1,9 @@
 import React from "react";
 import { DataTable } from "react-native-paper";
+import { Dimensions } from "react-native";
+
+const height = Dimensions.get("window").height;
+const width = Dimensions.get("window").width;
 
 export const TableHeader = (props) => {
   return (

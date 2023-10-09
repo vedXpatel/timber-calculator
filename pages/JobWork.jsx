@@ -23,6 +23,7 @@ export const JobWork = () => {
   const [totalCFT, setTotalCFT] = useState(0);
   const [totalCMT, setTotalCMT] = useState(0);
   const [calculateScreen, setCalculateScreen] = useState(false);
+  const [printScreen, setPrintScreen] = useState(false);
 
   const calculateJobWork = () => {
     const jobWork = (length * girth * girth) / 16 / 10000;
@@ -54,7 +55,7 @@ export const JobWork = () => {
 
   return (
     <ScrollView style={styles.parentView}>
-      {calculateScreen === false && (
+      {calculateScreen === false && printScreen === false && (
         <View>
           <View style={styles.container}>
             <TextInput
@@ -87,6 +88,16 @@ export const JobWork = () => {
               ref={girthRef}
             />
           </View>
+          <Button
+            title="Add Price"
+            onPress={() => {
+              setPrintScreen(true);
+            }}
+          />
+        </View>
+      )}
+      {printScreen && !calculateScreen && (
+        <>
           <TextInput
             placeholder="Price"
             keyboardType="decimal-pad"
@@ -103,10 +114,11 @@ export const JobWork = () => {
               setCalculateScreen(true);
             }}
           />
-        </View>
+        </>
       )}
       {calculateScreen && (
         <View>
+          <Text>Date: {Date.UTC()} Time: </Text>
           <DataTable
             style={{
               position: "relative",
@@ -120,6 +132,7 @@ export const JobWork = () => {
                 borderBottomColor: "black",
                 borderColor: "black",
                 overflow: "hidden",
+                marginTop: -height / 75,
               }}
             >
               <DataTable.Title
@@ -150,7 +163,14 @@ export const JobWork = () => {
               </DataTable.Title>
             </DataTable.Header>
             {list.map((item, index) => (
-              <DataTable.Row key={index}>
+              <DataTable.Row
+                key={index}
+                style={{
+                  marginTop: -height / 75,
+                  marginBottom: -height/70,
+                  // padding: 10,
+                }}
+              >
                 <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
                   {index + 1}
                 </DataTable.Cell>
@@ -171,6 +191,7 @@ export const JobWork = () => {
                 borderColor: "black",
                 borderBottomWidth: 0,
                 marginLeft: 20,
+                marginBottom: -height / 50,
               }}
             >
               <DataTable.Cell
@@ -192,7 +213,14 @@ export const JobWork = () => {
                 <Text>{totalCMT.toFixed(4)}</Text>
               </DataTable.Cell>
             </DataTable.Row>
-            <DataTable.Row style={{ borderBottomWidth: 0 }}>
+            <DataTable.Row
+              style={{
+                borderBottomWidth: 0,
+                marginTop: -height / 75,
+                marginBottom: -height / 50,
+                marginLeft: 20,
+              }}
+            >
               <DataTable.Cell
                 textStyle={{ fontSize: 17, fontWeight: "bold" }}
                 numeric
@@ -218,6 +246,9 @@ export const JobWork = () => {
                 borderBottomColor: "black",
                 borderColor: "black",
                 overflow: "hidden",
+                marginTop: -height / 75,
+                // marginBottom: -height/50,
+                marginLeft: 20,
               }}
             >
               <DataTable.Cell

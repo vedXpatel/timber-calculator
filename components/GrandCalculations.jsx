@@ -17,9 +17,9 @@ export const GrandCalculations = (props) => {
     >
       <DataTable.Row
         style={{
-          borderBottomWidth: 1,
-          borderColor: "black",
           overflow: "hidden",
+          marginTop: -height / 75,
+          marginBottom: -height/70,
         }}
       >
         <DataTable.Cell
@@ -52,6 +52,7 @@ export const GrandCalculations = (props) => {
           borderBottomColor: "black",
           borderColor: "black",
           overflow: "hidden",
+          marginTop: -height / 75,
         }}
       >
         <DataTable.Cell

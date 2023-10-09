@@ -545,6 +545,7 @@ export const Purchase = ({ navigation }) => {
       )}
       {isInvoiceScreen && (
         <View ref={imageRef} onLayout={onLayout} style={{ overflow: "hidden" }}>
+          <Text> Date: Time:</Text>
           {oneToEleven.length > 0 && (
             <DataTable
               style={{
@@ -555,7 +556,13 @@ export const Purchase = ({ navigation }) => {
             >
               <TableHeader />
               {oneToEleven.map((item, index) => (
-                <DataTable.Row key={index}>
+                <DataTable.Row
+                  key={index}
+                  style={{
+                    height: 5,
+                    marginTop: -height / 75,
+                  }}
+                >
                   <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
                     {index + 1}
                   </DataTable.Cell>
@@ -575,6 +582,8 @@ export const Purchase = ({ navigation }) => {
                   borderTopWidth: 1,
                   borderColor: "black",
                   borderBottomWidth: 0,
+                  marginTop: -height / 75,
+                  marginBottom: -height/70,
                 }}
               >
                 <DataTable.Cell
@@ -601,7 +610,9 @@ export const Purchase = ({ navigation }) => {
                   borderBottomWidth: 1,
                   borderBottomColor: "black",
                   borderColor: "black",
-                  overflow: "hidden",
+                  // overflow: "hidden",
+                  marginTop: -height / 75,
+                  marginBottom: height/20,
                 }}
               >
                 <DataTable.Cell

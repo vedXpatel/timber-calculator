@@ -15,7 +15,13 @@ export const Table = (props) => {
       }}
     >
       {data.map((item, index) => (
-        <DataTable.Row key={index}>
+        <DataTable.Row
+          key={index}
+          style={{
+            marginTop: -height / 75,
+            // marginBottom: -height/100,
+          }}
+        >
           <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
             {index + 1}
           </DataTable.Cell>
@@ -35,6 +41,8 @@ export const Table = (props) => {
           borderTopWidth: 1,
           borderColor: "black",
           borderBottomWidth: 0,
+          marginTop: -height / 75,
+          marginBottom: -height/ 75,
         }}
       >
         <DataTable.Cell
@@ -62,6 +70,9 @@ export const Table = (props) => {
           borderBottomColor: "black",
           borderColor: "black",
           overflow: "hidden",
+          padding: -10,
+          marginTop: -height / 75,
+          // height: 10,
         }}
       >
         <DataTable.Cell
