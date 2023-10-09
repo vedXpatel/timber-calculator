@@ -4,7 +4,7 @@
 ```
 expo start
 ```
-Tunnel (Recommended)
+Tunnel (Recommended):
 ```
 npx expo start --tunnel
 ```
