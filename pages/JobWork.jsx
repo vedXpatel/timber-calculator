@@ -6,7 +6,7 @@ import {
   TextInput,
   ScrollView,
   Text,
-  Button,
+  Button, TouchableOpacity,
 } from "react-native";
 import { DataTable } from "react-native-paper";
 
@@ -52,6 +52,73 @@ export const JobWork = () => {
     setTotalCFT(tempCFT);
     setTotalCMT(tempCMT);
   };
+
+  // get height of table view
+  const [tableHeight, setTableHeight] = useState(0);
+  const onLayout = (event) => {
+    const { x, y, height, width } = event.nativeEvent.layout;
+    setTableHeight(height);
+  };
+
+  // save view as local media in the device
+  const onSaveImageAsync = async () => {
+    console.log(`tableHeight: ${tableHeight}`);
+    try {
+      const localUri = await captureRef(imageRef, {
+        height: tableHeight,
+        quality: 1,
+      });
+
+      await MediaLibrary.saveToLibraryAsync(localUri);
+      console.log(localUri);
+      await saveFile(localUri);
+      if (localUri) {
+        alert("Saved!");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // adding to auto print album
+  async function saveFile(filePath) {
+    const albumName = "auto print";
+    const permission = await MediaLibrary.requestPermissionsAsync();
+
+    let asset = null;
+    if (permission.granted) {
+      try {
+        asset = await MediaLibrary.createAssetAsync(filePath);
+      } catch (e) {
+        console.error("MediaLibrary.createAssetAsync failed", e);
+      }
+
+      if (asset) {
+        try {
+          let album = await MediaLibrary.getAlbumAsync(albumName);
+          if (album) {
+            await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+          } else {
+            album = await MediaLibrary.createAlbumAsync(
+                albumName,
+                asset,
+                false
+            );
+          }
+          const assetResult = await MediaLibrary.getAssetsAsync({
+            first: 1,
+            album,
+            sortBy: MediaLibrary.SortBy.creationTime,
+          });
+          asset = await assetResult.assets[0];
+        } catch (e) {
+          console.error(" failed", e);
+        }
+      } else {
+        console.error("unable to use MediaLibrary, can not create assets");
+      }
+    }
+  }
 
   return (
     <ScrollView style={styles.parentView}>
@@ -276,6 +343,14 @@ export const JobWork = () => {
               </DataTable.Cell>
             </DataTable.Row>
           </DataTable>
+          <TouchableOpacity
+              style={styles.printButton}
+              onPress={onSaveImageAsync}
+          >
+            <Text style={{ color: "white", fontSize: 20, alignSelf: "center" }}>
+              Print
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
     </ScrollView>
