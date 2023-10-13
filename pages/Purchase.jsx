@@ -59,8 +59,6 @@ export const Purchase = ({ navigation }) => {
   const [isPriceScreen, setIsPriceScreen] = useState(false);
   const [isInvoiceScreen, setIsInvoiceScreen] = useState(false);
 
-  const [tableIndex, setTableIndex] = useState(1);
-
   const girthRef = useRef();
   const lengthRef = useRef();
   const price1Ref = useRef();
@@ -548,17 +546,106 @@ export const Purchase = ({ navigation }) => {
       {isInvoiceScreen && (
         <View ref={imageRef} onLayout={onLayout} style={{ overflow: "hidden" }}>
           <Text> Date: Time:</Text>
-          <TableHeader />
           {oneToEleven.length > 0 && (
-            <Table data={oneToEleven} cft={one} price={oneToElevenPrice} 
-            tableIndex={0} setTableIndex={setTableIndex}/>
+            <DataTable
+              style={{
+                position: "relative",
+                left: -width / 5,
+                width: width + width / 5,
+              }}
+            >
+              <TableHeader />
+              {oneToEleven.map((item, index) => (
+                <DataTable.Row
+                  key={index}
+                  style={{
+                    height: 5,
+                    marginTop: -height / 75,
+                  }}
+                >
+                  <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
+                    {index + 1}
+                  </DataTable.Cell>
+                  <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
+                    {item.length}
+                  </DataTable.Cell>
+                  <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
+                    {item.girth}
+                  </DataTable.Cell>
+                  <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
+                    {item.CFT.toFixed(4)}
+                  </DataTable.Cell>
+                </DataTable.Row>
+              ))}
+              <DataTable.Row
+                style={{
+                  borderTopWidth: 1,
+                  borderColor: "black",
+                  borderBottomWidth: 0,
+                  marginTop: -height / 75,
+                  marginBottom: -height/70,
+                }}
+              >
+                <DataTable.Cell
+                  textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                  numeric
+                >
+                  <Text>Total CFT</Text>
+                </DataTable.Cell>
+                <DataTable.Cell
+                  textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                  numeric
+                >
+                  <Text>:</Text>
+                </DataTable.Cell>
+                <DataTable.Cell
+                  textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                  numeric
+                >
+                  <Text>{one.toFixed(4)}</Text>
+                </DataTable.Cell>
+              </DataTable.Row>
+              <DataTable.Row
+                style={{
+                  borderBottomWidth: 1,
+                  borderBottomColor: "black",
+                  borderColor: "black",
+                  // overflow: "hidden",
+                  marginTop: -height / 75,
+                  marginBottom: height/20,
+                }}
+              >
+                <DataTable.Cell
+                  textStyle={{
+                    fontSize: 17,
+                    fontWeight: "bold",
+                    left: width / 3.3,
+                    width: width / 2,
+                  }}
+                  numeric
+                >
+                  <Text>Total Price (@ {oneToElevenPrice})</Text>
+                </DataTable.Cell>
+                <DataTable.Cell
+                  textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                  numeric
+                >
+                  <Text>:</Text>
+                </DataTable.Cell>
+                <DataTable.Cell
+                  textStyle={{ fontSize: 17, fontWeight: "bold" }}
+                  numeric
+                >
+                  <Text>{(one * oneToElevenPrice).toFixed(2)}</Text>
+                </DataTable.Cell>
+              </DataTable.Row>
+            </DataTable>
           )}
           {TwelveToSeventeen.length > 0 && (
             <Table
               data={TwelveToSeventeen}
               cft={two}
               price={TwelveToSeventeenPrice}
-              tableIndex={tableIndex + TwelveToSeventeen.length} setTableIndex={setTableIndex}
             />
           )}
           {EighteenToTwentyThree.length > 0 && (
@@ -566,7 +653,6 @@ export const Purchase = ({ navigation }) => {
               data={EighteenToTwentyThree}
               cft={three}
               price={EighteenToTwentyThreePrice}
-              tableIndex={tableIndex + TwelveToSeventeen.length + EighteenToTwentyThree.length} setTableIndex={setTableIndex}
             />
           )}
           {TwentyFourToTwentyNine.length > 0 && (
@@ -574,7 +660,6 @@ export const Purchase = ({ navigation }) => {
               data={TwentyFourToTwentyNine}
               cft={four}
               price={TwentyFourToTwentyNinePrice}
-              tableIndex={tableIndex + TwelveToSeventeen.length + EighteenToTwentyThree.length + TwentyFourToTwentyNine.length} setTableIndex={setTableIndex}
             />
           )}
           {ThirtyToThirtyFive.length > 0 && (
@@ -582,7 +667,6 @@ export const Purchase = ({ navigation }) => {
               data={ThirtyToThirtyFive}
               cft={five}
               price={ThirtyToThirtyFivePrice}
-              tableIndex={tableIndex + TwelveToSeventeen.length + EighteenToTwentyThree.length + TwentyFourToTwentyNine.length + ThirtyToThirtyFive.length} setTableIndex={setTableIndex}
             />
           )}
           {ThirtySixToFortySeven.length > 0 && (
@@ -590,7 +674,6 @@ export const Purchase = ({ navigation }) => {
               data={ThirtySixToFortySeven}
               cft={six}
               price={ThirtySixToFortySevenPrice}
-              tableIndex={tableIndex + TwelveToSeventeen.length + EighteenToTwentyThree.length + TwentyFourToTwentyNine.length + ThirtyToThirtyFive.length + ThirtySixToFortySeven.length} setTableIndex={setTableIndex}
             />
           )}
           {FortyEightAbove.length > 0 && (
@@ -598,11 +681,9 @@ export const Purchase = ({ navigation }) => {
               data={FortyEightAbove}
               cft={seven}
               price={FortyEightAbovePrice}
-              tableIndex={tableIndex + TwelveToSeventeen.length + EighteenToTwentyThree.length + TwentyFourToTwentyNine.length + ThirtyToThirtyFive.length + ThirtySixToFortySeven.length + FortyEightAbove.length} setTableIndex={setTableIndex}
             />
           )}
-          <GrandCalculations grandCFT={grandCFT} grandPrice={grandPrice}
-          tableIndex={tableIndex} setTableIndex={setTableIndex} />
+          <GrandCalculations grandCFT={grandCFT} grandPrice={grandPrice} />
           <TouchableOpacity
             style={styles.printButton}
             onPress={onSaveImageAsync}

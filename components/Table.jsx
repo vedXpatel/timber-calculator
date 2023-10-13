@@ -1,66 +1,104 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from "react";
+import { DataTable } from "react-native-paper";
+import { Text, Dimensions } from "react-native";
 
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 export const Table = (props) => {
-  const { data, cft, price, tableIndex, setTableIndex } = props;
-
+  const { data, cft, price } = props;
   return (
-    <View style={styles.table}>
-      {data.map((item, index) => {
-        return (
-          <View style={styles.dataRow} key={index}>
-            <Text style={styles.cell}>{tableIndex + index + 1}</Text>
-            <Text style={styles.cell}>{item.length}</Text>
-            <Text style={styles.cell}>{item.girth}</Text>
-            <Text style={[styles.cell, { flex: 1 }]}>{item.CFT.toFixed(4)}</Text>
-          </View>
-        );
-      })}
-      <View style={[styles.totalRow, { borderTopWidth: 1, borderColor: "#000" }]}>
-        <Text style={[styles.totalCell, { flex: 3 }]}>Total CFT</Text>
-        <Text style={[styles.totalCell, { flex: 1 }]}>{cft.toFixed(4)}</Text>
-      </View>
-      <View style={[styles.totalRow, { borderBottomWidth: 1, borderColor: "#000" }]}>
-        <Text style={[styles.totalCell, { flex: 3 }]}>Total Price (@{price})</Text>
-        <Text style={[styles.totalCell, { flex: 1 }]}>{(cft * price).toFixed(2)}</Text>
-      </View>
-    </View>
+    <DataTable
+      style={{
+        position: "relative",
+        left: -width / 5,
+        width: width + width / 5,
+      }}
+    >
+      {data.map((item, index) => (
+        <DataTable.Row
+          key={index}
+          style={{
+            marginTop: -height / 75,
+            // marginBottom: -height/100,
+          }}
+        >
+          <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+            {index + 1}
+          </DataTable.Cell>
+          <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+            {item.length}
+          </DataTable.Cell>
+          <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+            {item.girth}
+          </DataTable.Cell>
+          <DataTable.Cell numeric textStyle={{ fontSize: 17 }}>
+            {item.CFT.toFixed(4)}
+          </DataTable.Cell>
+        </DataTable.Row>
+      ))}
+      <DataTable.Row
+        style={{
+          borderTopWidth: 1,
+          borderColor: "black",
+          borderBottomWidth: 0,
+          marginTop: -height / 75,
+          marginBottom: -height/ 75,
+        }}
+      >
+        <DataTable.Cell
+          textStyle={{ fontSize: 17, fontWeight: "bold" }}
+          numeric
+        >
+          <Text>Total CFT</Text>
+        </DataTable.Cell>
+        <DataTable.Cell
+          textStyle={{ fontSize: 17, fontWeight: "bold" }}
+          numeric
+        >
+          <Text>:</Text>
+        </DataTable.Cell>
+        <DataTable.Cell
+          textStyle={{ fontSize: 17, fontWeight: "bold" }}
+          numeric
+        >
+          <Text>{cft.toFixed(4)}</Text>
+        </DataTable.Cell>
+      </DataTable.Row>
+      <DataTable.Row
+        style={{
+          borderBottomWidth: 1,
+          borderBottomColor: "black",
+          borderColor: "black",
+          overflow: "hidden",
+          padding: -10,
+          marginTop: -height / 75,
+          // height: 10,
+        }}
+      >
+        <DataTable.Cell
+          textStyle={{
+            fontSize: 17,
+            fontWeight: "bold",
+            left: width / 3.3,
+            width: width / 2,
+          }}
+          numeric
+        >
+          <Text>Total Price (@ {price})</Text>
+        </DataTable.Cell>
+        <DataTable.Cell
+          textStyle={{ fontSize: 17, fontWeight: "bold" }}
+          numeric
+        >
+          <Text>:</Text>
+        </DataTable.Cell>
+        <DataTable.Cell
+          textStyle={{ fontSize: 17, fontWeight: "bold" }}
+          numeric
+        >
+          <Text>{(cft * price).toFixed(2)}</Text>
+        </DataTable.Cell>
+      </DataTable.Row>
+    </DataTable>
   );
 };
-
-const styles = StyleSheet.create({
-  table: {
-    width: "100%", // Width spans the screen
-  },
-  headerRow: {
-    flexDirection: "row",
-    backgroundColor: "#f0f0f0",
-    padding: 5,
-    borderWidth: 1,
-    borderColor: "black",
-  },
-  headerCell: {
-    flex: 1,
-    fontWeight: "bold",
-  },
-  dataRow: {
-    flexDirection: "row",
-    padding: 5,
-    paddingTop: 0,
-    paddingLeft: 20,
-  },
-  cell: {
-    flex: 1,
-  },
-  totalRow: {
-    flexDirection: "row",
-    backgroundColor: "#e0e0e0",
-    padding: 5,
-    paddingTop: 0,
-    paddingLeft: 20,
-  },
-  totalCell: {
-    flex: 1,
-    fontWeight: "bold",
-  },
-});
