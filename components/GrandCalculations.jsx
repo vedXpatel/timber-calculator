@@ -1,6 +1,6 @@
 import React from "react";
 import { DataTable } from "react-native-paper";
-import { Text, Dimensions } from "react-native";
+import { Text, Dimensions, StyleSheet, View } from "react-native";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -8,77 +8,54 @@ const height = Dimensions.get("window").height;
 export const GrandCalculations = (props) => {
   const { grandCFT, grandPrice } = props;
   return (
-    <DataTable
-      style={{
-        position: "relative",
-        left: -width / 5,
-        width: width + width / 5,
-      }}
-    >
-      <DataTable.Row
-        style={{
-          overflow: "hidden",
-          marginTop: -height / 75,
-          marginBottom: -height/70,
-        }}
+    <View>
+      <View
+        style={[styles.totalRow]}
       >
-        <DataTable.Cell
-          textStyle={{
-            fontSize: 17,
-            fontWeight: "bold",
-            left: width / 3.3,
-            width: width / 2,
-          }}
-          numeric
-        >
-          <Text>Grand CFT </Text>
-        </DataTable.Cell>
-        <DataTable.Cell
-          textStyle={{ fontSize: 17, fontWeight: "bold" }}
-          numeric
-        >
-          <Text>:</Text>
-        </DataTable.Cell>
-        <DataTable.Cell
-          textStyle={{ fontSize: 17, fontWeight: "bold" }}
-          numeric
-        >
-          <Text>{grandCFT.toFixed(4)}</Text>
-        </DataTable.Cell>
-      </DataTable.Row>
-      <DataTable.Row
-        style={{
-          borderBottomWidth: 1,
-          borderBottomColor: "black",
-          borderColor: "black",
-          overflow: "hidden",
-          marginTop: -height / 75,
-        }}
+        <Text style={[styles.totalCell, { flex: 3 }]}>Grand CFT</Text>
+        <Text style={[styles.totalCell, { flex: 1 }]}>{grandCFT.toFixed()}</Text>
+      </View>
+      <View
+        style={[styles.totalRow, { borderBottomWidth: 1, borderColor: "#000" }]}
       >
-        <DataTable.Cell
-          textStyle={{
-            fontSize: 17,
-            fontWeight: "bold",
-            left: width / 3.3,
-            width: width / 2,
-          }}
-          numeric
-        >
-          <Text>Grand Price</Text>
-        </DataTable.Cell>
-        <DataTable.Cell
-          textStyle={{ fontSize: 17, fontWeight: "bold" }}
-          numeric
-        >
-          <Text>:</Text>
-        </DataTable.Cell>
-        <DataTable.Cell
-          textStyle={{ fontSize: 17, fontWeight: "bold" }}
-          numeric
-        >
-          <Text>{grandPrice.toFixed(2)}</Text>
-        </DataTable.Cell>
-      </DataTable.Row>
-    </DataTable>
+        <Text style={[styles.totalCell, { flex: 3 }]}>
+          Grand Price
+        </Text>
+        <Text style={[styles.totalCell, { flex: 1 }]}>{grandPrice}</Text>
+      </View>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  table: {
+    margin: 10,
+    width: "100%", // Width spans the screen
+  },
+  headerRow: {
+    flexDirection: "row",
+    padding: 5,
+    borderWidth: 1,
+    borderColor: "black",
+  },
+  headerCell: {
+    flex: 1,
+    fontWeight: "bold",
+  },
+  dataRow: {
+    flexDirection: "row",
+    padding: 5,
+  },
+  cell: {
+    flex: 1,
+  },
+  totalRow: {
+    flexDirection: "row",
+    padding: 5,
+    paddingLeft:20,
+  },
+  totalCell: {
+    flex: 1,
+    fontWeight: "bold",
+  },
+});
