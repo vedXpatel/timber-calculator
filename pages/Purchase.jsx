@@ -354,8 +354,8 @@ export const Purchase = ({ navigation }) => {
               ref={girthRef}
             />
           </View>
-          <Button
-            title="Add Prices"
+          <TouchableOpacity
+            style={styles.addPrice}
             onPress={() => {
               Alert.alert("Add Prices?", "Do you want to proceed?", [
                 { text: "Cancel", style: "cancel", onPress: () => {} },
@@ -369,8 +369,9 @@ export const Purchase = ({ navigation }) => {
                 },
               ]);
             }}
-            style={styles.addPrice}
-          />
+          >
+            <Text style={styles.addPriceText}>Add Prices</Text>
+          </TouchableOpacity>
         </>
       )}
       {isPriceScreen && (
@@ -532,9 +533,14 @@ export const Purchase = ({ navigation }) => {
               />
             </View>
           )}
-          <Button title="Back" onPress={() => setIsPriceScreen(false)} />
-          <Button
-            title="Calculate"
+          <View style={styles.buttonContainer}>
+          <TouchableOpacity style={[styles.addPrice,{width:150,marginRight:20,}]} onPress={() => setIsPriceScreen(false)} >
+            <Text style={styles.addPriceText}>
+              Edit Purchase
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+          style={styles.addPrice}
             onPress={() => {
               categoryTotalCFT();
               // getCategoryPrice();
@@ -542,7 +548,10 @@ export const Purchase = ({ navigation }) => {
               setIsInvoiceScreen(true);
               setIsPriceScreen(false);
             }}
-          />
+          >
+            <Text style={styles.addPriceText}>Calculate</Text>
+          </TouchableOpacity>
+          </View>
         </View>
       )}
       {isInvoiceScreen && (
@@ -607,7 +616,7 @@ export const Purchase = ({ navigation }) => {
             style={styles.printButton}
             onPress={onSaveImageAsync}
           >
-            <Text style={{ color: "white", fontSize: 20, alignSelf: "center" }}>
+            <Text style={styles.addPriceText}>
               Print
             </Text>
           </TouchableOpacity>
@@ -636,9 +645,20 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   addPrice: {
-    position: "absolute",
-    top: "95%",
-    left: "90%",
+    position: 'relative',
+    borderWidth: 1,
+    borderColor: "white",
+    width: width / 3,
+    flex: 1,
+    alignSelf: 'center',
+    backgroundColor: 'lightblue',
+    padding: 10,
+    borderRadius: 10,
+  },
+  addPriceText: {
+    fontSize: 20,
+    alignSelf: "center",
+    color: "black",
   },
   parentView: {
     height: height,
@@ -647,12 +667,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   printButton: {
-    backgroundColor: "#00d1fd",
-    color: "white",
-    width: width / 5,
-    alignItems: "center",
-    alignSelf: "center",
-    justifyContent: "center",
-    position: "relative",
+    position: 'relative',
+    borderWidth: 1,
+    borderColor: "white",
+    width: width / 3,
+    flex: 1,
+    alignSelf: 'center',
+    backgroundColor: 'lightblue',
+    padding: 10,
+    borderRadius: 10,
   },
+  buttonContainer:{
+    flex: 1,
+    backgroundColor: 'white', // Background color of the screen
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row', //
+    padding: 20,
+  }
 });

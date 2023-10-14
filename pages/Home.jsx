@@ -39,8 +39,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: {
-    borderWidth: 1,
-    borderColor: "#000000",
     padding: 10,
     backgroundColor: "#DDDDDD",
     width: width / 1.4,
@@ -48,6 +46,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderRadius: 10,
     marginBottom: height / 30,
+    borderWidth: 1,
+    borderColor: "white",
+    backgroundColor: 'lightblue',
+    padding: 10,
+    borderRadius: 10,
   },
   buttonText: {
     fontSize: 25,
