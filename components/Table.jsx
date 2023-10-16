@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
   },
   totalRow: {
     flexDirection: "row",
-    backgroundColor: "#e0e0e0",
-    padding: 5,
+    // backgroundColor: "#e0e0e0",
+    padding: 2,
     paddingTop: 0,
     paddingLeft: 20,
   },

@@ -13,7 +13,7 @@ export const GrandCalculations = (props) => {
         style={[styles.totalRow]}
       >
         <Text style={[styles.totalCell, { flex: 3 }]}>Grand CFT</Text>
-        <Text style={[styles.totalCell, { flex: 1 }]}>{grandCFT.toFixed()}</Text>
+        <Text style={[styles.totalCell, { flex: 1 }]}>{grandCFT.toFixed(4)}</Text>
       </View>
       <View
         style={[styles.totalRow, { borderBottomWidth: 1, borderColor: "#000" }]}
@@ -44,15 +44,14 @@ const styles = StyleSheet.create({
   },
   dataRow: {
     flexDirection: "row",
-    padding: 5,
   },
   cell: {
     flex: 1,
   },
   totalRow: {
     flexDirection: "row",
-    padding: 5,
     paddingLeft:20,
+    padding: 2,
   },
   totalCell: {
     flex: 1,
