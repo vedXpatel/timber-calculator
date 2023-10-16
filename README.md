@@ -4,5 +4,14 @@
 ```
 expo start
 ```
+- For running the application via tunnel
+```agsl
+yarn tunnel
+```
 ---
-- Migrating the project to typescript
+<h3>To-Dos</h3>
+<ol>
+<li> 
+Migrating the project to typescript
+</li>
+</ol>
