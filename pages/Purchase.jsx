@@ -98,34 +98,6 @@ export const Purchase = ({ navigation }) => {
     return () => backHandler.remove();
   }, []);
 
-  const storeListInAsyncStorage = async (key, value) => {
-    try {
-      await AsyncStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getListFromAsyncStorage = async (key) => {
-    try {
-      const value = await AsyncStorage.getItem(key);
-      if (value !== null) {
-        return JSON.parse(value);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const increaseAsyncStorageSize = async () => {
-    try {
-      await AsyncStorage.setItem("dummyKey", "dummyValue");
-      await AsyncStorage.removeItem("dummyKey");
-      await AsyncStorage.setMaxSize(100 * 1024 * 1024); // 100 MB
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     getTotalPrice(one, two, three, four, five, six, seven, setGrandPrice, setGrandCFT, oneToElevenPrice, TwelveToSeventeenPrice, EighteenToTwentyThreePrice, TwentyFourToTwentyNinePrice, ThirtyToThirtyFivePrice, ThirtySixToFortySevenPrice, FortyEightAbovePrice);
