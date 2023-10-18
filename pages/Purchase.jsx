@@ -17,6 +17,7 @@ import { GrandCalculations } from "../components/GrandCalculations";
 import { TableHeader } from "../components/TableHeader";
 import * as MediaLibrary from "expo-media-library";
 import { captureRef } from "react-native-view-shot";
+import DateTime from '../components/Purchase/DateTime';
 import {calculateCft, categorize, categoryTotalCFT, getTotalPrice, onLayout, onSaveImageAsync} from "./utils/Purchase";
 
 const height = Dimensions.get("window").height;
@@ -369,11 +370,20 @@ export const Purchase = ({ navigation }) => {
         </View>
       )}
       {isInvoiceScreen && (
+          <View>
+          <TouchableOpacity
+              style={styles.printButton}
+              onPress={() => onSaveImageAsync(tableHeight, imageRef)}
+          >
+            <Text style={styles.addPriceText}>
+              Print
+            </Text>
+          </TouchableOpacity>
         <View ref={imageRef} onLayout={(event) => onLayout(event, setTableHeight)} style={{ overflow: "hidden" }}>
-          <Text> Date: Time:</Text>
+          <DateTime/>
           <TableHeader />
           {oneToEleven.length > 0 && (
-            <Table data={oneToEleven} cft={one} price={oneToElevenPrice} 
+            <Table data={oneToEleven} cft={one} price={oneToElevenPrice}
             tableIndex={0} setTableIndex={setTableIndex}/>
           )}
           {TwelveToSeventeen.length > 0 && (
@@ -426,15 +436,8 @@ export const Purchase = ({ navigation }) => {
           )}
           <GrandCalculations grandCFT={grandCFT} grandPrice={grandPrice}
           tableIndex={tableIndex} setTableIndex={setTableIndex} />
-          <TouchableOpacity
-            style={styles.printButton}
-            onPress={() => onSaveImageAsync(tableHeight, imageRef)}
-          >
-            <Text style={styles.addPriceText}>
-              Print
-            </Text>
-          </TouchableOpacity>
         </View>
+          </View>
       )}
     </ScrollView>
   );

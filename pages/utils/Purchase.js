@@ -84,7 +84,7 @@ export const categoryTotalCFT = (oneToEleven, TwelveToSeventeen, EighteenToTwent
     }
     setOne(temp);
     console.log(temp);
-    console.log(one);
+    // console.log(one);
     setTwo(temp2);
     setThree(temp3);
     setFour(temp4);
