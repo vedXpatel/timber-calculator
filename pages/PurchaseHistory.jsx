@@ -11,29 +11,25 @@ export const PurchaseHistory = ({navigation}) => {
     const [localData, setLocalData] = useState([]);
 
         const retrieveData = async () => {
+            setLocalData([]);
             const temp = await AsyncStorage.getItem('billNo');
-            console.log(`bill no set inside purchase history ${temp}`)
+            console.log(`bill no set inside purchase history ${temp}`);
             setBillNo(temp);
             try {
                 const bill = +billNo;
-                for (let i = 1; i <= bill; i++) {
+                for (let i = 1; i <= bill + 1; i++) {
                     try{
+                        if(await AsyncStorage.getItem(i.toString()) !== null){
                     const savedData = await AsyncStorage.getItem(i.toString());
                     console.log(savedData);
                     setLocalData((prev) => {
                         return [...prev, savedData]
                     });
+                        }
                     } catch(error) {
                         alert(`Error Fetching Local Data`);
                     }
                 }
-                // if (localData) {
-                //     setLocalData(JSON.parse(localData));
-                //     const parsedData = JSON.parse(savedData);
-                //     setData(parsedData.data);
-                //     setDate(parsedData.date);
-                //     setTime(parsedData.time);
-                // }
                 console.log(localData);
             } catch (error) {
                 console.error("Error retrieving data: ", error);
@@ -46,6 +42,11 @@ export const PurchaseHistory = ({navigation}) => {
 
     return(
         <View>
+            <TouchableOpacity onPress={retrieveData}>
+                <Text>
+                    Refresh
+                </Text>
+            </TouchableOpacity>
             {localData.map((item, index)=> {
                 return(
                     <TouchableOpacity style={styles.listContainer}>

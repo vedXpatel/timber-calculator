@@ -203,15 +203,16 @@ export const initializeBillNo = async() => {
 
 export const saveData = async (data, date, time) => {
     let bill = await AsyncStorage.getItem('billNo');
-    bill = +bill + 1;
+    const tempBill = parseInt(bill) + 1;
     try {
         const dataToSave = {
-            bill,
+            tempBill,
             data,
             date,
             time,
         };
-        await AsyncStorage.setItem(bill.toString(), JSON.stringify(dataToSave));
+        await AsyncStorage.setItem(tempBill.toString(), JSON.stringify(dataToSave));
+        await AsyncStorage.setItem('billNo', JSON.stringify(tempBill));
         console.log(`item saved`);
     } catch (error) {
         console.error("Error saving data: ", error);
