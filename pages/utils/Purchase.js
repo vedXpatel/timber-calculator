@@ -1,6 +1,7 @@
 // Function to Calculate CFT
 import * as MediaLibrary from "expo-media-library";
 import { captureRef } from "react-native-view-shot";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const calculateCft = async (length, girth, setList) => {
     const CFT = (length * girth * girth) / 2304;
@@ -188,3 +189,37 @@ async function saveFile(filePath) {
         }
     }
 }
+
+// Functions to store data on local storage and retrieve/edit the data
+
+const setBillNo = async() => {
+    try{
+        await AsyncStorage.getItem('billNo');
+    } catch(error){
+        console.error(`error while setting billNo. for first Time`);
+        await AsyncStorage.setItem('billNo','1');
+    }
+
+    try{
+        let bill = await AsyncStorage.getItem('billNo');
+        bill = +bill + 1;
+        await AsyncStorage.setItem('billNo',bill.toString());
+    } catch(error){
+        console.error(`error while updating bill number: ${error}`);
+    }
+}
+
+export const saveData = async (billNo, data, date, time) => {
+    try {
+        const dataToSave = {
+            billNo,
+            data,
+            date,
+            time,
+        };
+        await AsyncStorage.setItem("tableData", JSON.stringify(dataToSave));
+        console.log(`item saved`);
+    } catch (error) {
+        console.error("Error saving data: ", error);
+    }
+};

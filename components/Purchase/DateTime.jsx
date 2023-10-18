@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import moment from 'moment';
 
-const DateTime = () => {
-    const billNo = '12345';
+const DateTime = (props) => {
+    // const billNo = '12345';
+    const {billNo} = props;
     const currentDate = moment().format('DD/MM/YY');
     const currentTime = moment().format('hh:mm:ss');
 

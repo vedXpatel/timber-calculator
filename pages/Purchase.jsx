@@ -18,7 +18,16 @@ import { TableHeader } from "../components/TableHeader";
 import * as MediaLibrary from "expo-media-library";
 import { captureRef } from "react-native-view-shot";
 import DateTime from '../components/Purchase/DateTime';
-import {calculateCft, categorize, categoryTotalCFT, getTotalPrice, onLayout, onSaveImageAsync} from "./utils/Purchase";
+import {
+  calculateCft,
+  categorize,
+  categoryTotalCFT,
+  getTotalPrice,
+  onLayout,
+  onSaveImageAsync,
+  saveData
+} from "./utils/Purchase";
+import moment from "moment/moment";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
@@ -106,6 +115,19 @@ export const Purchase = ({ navigation }) => {
   // get height of table view
   const [tableHeight, setTableHeight] = useState(0);
 
+  // Bill No. Initial
+  const [billNo, setBillNo] = useState('');
+
+  const retrieveBillNo = async() => {
+    try{
+      const temp = await AsyncStorage.getItem('billNo');
+      setBillNo(temp);
+    } catch(error){
+      console.error(error);
+      setBillNo('1');
+    }
+  }
+
   return (
     <ScrollView style={styles.parentView}>
       {!isPriceScreen && !isInvoiceScreen && (
@@ -158,6 +180,11 @@ export const Purchase = ({ navigation }) => {
             }}
           >
             <Text style={styles.addPriceText}>Add Prices</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('PurchaseHistory')}>
+            <Text>
+              Purchase History
+            </Text>
           </TouchableOpacity>
         </>
       )}
@@ -343,6 +370,7 @@ export const Purchase = ({ navigation }) => {
       )}
       {isInvoiceScreen && (
           <View>
+            <View style={styles.printRow}>
           <TouchableOpacity
               style={styles.printButton}
               onPress={() => onSaveImageAsync(tableHeight, imageRef)}
@@ -351,8 +379,17 @@ export const Purchase = ({ navigation }) => {
               Print
             </Text>
           </TouchableOpacity>
+              <TouchableOpacity
+                  style={styles.printButton}
+                  onPress={() => saveData(1,oneToEleven, moment().format('DD/MM/YY'), moment().format('hh:mm:ss') )}
+              >
+                <Text style={styles.addPriceText}>
+                  Save
+                </Text>
+              </TouchableOpacity>
+            </View>
         <View ref={imageRef} onLayout={(event) => onLayout(event, setTableHeight)} style={{ overflow: "hidden" }}>
-          <DateTime/>
+          <DateTime billNo={billNo}/>
           <TableHeader />
           {oneToEleven.length > 0 && (
             <Table data={oneToEleven} cft={one} price={oneToElevenPrice}
@@ -473,5 +510,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row', //
     padding: 20,
+  },
+  printRow: {
+    flexDirection: 'row',
   }
 });

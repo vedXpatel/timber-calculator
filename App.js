@@ -5,6 +5,7 @@ import { Purchase } from "./pages/Purchase";
 import { JobWork } from "./pages/JobWork";
 import { Alert, Button, TouchableOpacity, Text, Dimensions, View } from 'react-native';
 import { useState } from 'react';
+import {PurchaseHistory} from "./pages/PurchaseHistory";
 
 const Stack = createNativeStackNavigator();
 
@@ -92,6 +93,7 @@ export default function App() {
           // Pass the navigation prop to the JobWork component
           navigation: navigation,
         })} />
+          <Stack.Screen name='PurchaseHistory' component={PurchaseHistory} />
       </Stack.Navigator>
     </NavigationContainer>
   );
