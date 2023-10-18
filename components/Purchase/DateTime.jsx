@@ -12,7 +12,7 @@ const DateTime = (props) => {
         <View style={styles.container}>
             <View style={styles.leftColumn}>
                 <Text style={styles.label}>Bill No.: </Text>
-                <Text style={styles.value}>{billNo}</Text>
+                <Text style={styles.value}>{+billNo + 1}</Text>
             </View>
             <View style={styles.dateTimeColumn}>
             <View style={styles.rightColumn}>

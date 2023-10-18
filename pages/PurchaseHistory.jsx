@@ -8,50 +8,66 @@ export const PurchaseHistory = ({navigation}) => {
     const [data, setData] = useState([]);
     const [date, setDate] = useState();
     const [time, setTime] = useState();
+    const [localData, setLocalData] = useState([]);
 
         const retrieveData = async () => {
+            const temp = await AsyncStorage.getItem('billNo');
+            console.log(`bill no set inside purchase history ${temp}`)
+            setBillNo(temp);
             try {
-                const savedData = await AsyncStorage.getItem("tableData");
-                if (savedData) {
-                    const parsedData = JSON.parse(savedData);
-                    setBillNo(parsedData.billNo);
-                    setData(parsedData.data);
-                    setDate(parsedData.date);
-                    setTime(parsedData.time);
+                const bill = +billNo;
+                for (let i = 1; i <= bill; i++) {
+                    try{
+                    const savedData = await AsyncStorage.getItem(i.toString());
+                    console.log(savedData);
+                    setLocalData((prev) => {
+                        return [...prev, savedData]
+                    });
+                    } catch(error) {
+                        alert(`Error Fetching Local Data`);
+                    }
                 }
+                // if (localData) {
+                //     setLocalData(JSON.parse(localData));
+                //     const parsedData = JSON.parse(savedData);
+                //     setData(parsedData.data);
+                //     setDate(parsedData.date);
+                //     setTime(parsedData.time);
+                // }
+                console.log(localData);
             } catch (error) {
                 console.error("Error retrieving data: ", error);
             }
         };
 
         useEffect(() => {
-            retrieveData()
-                .then((response) => console.log(response))
-                .catch((error) => console.warn(error))
+            retrieveData();
         },[]);
 
     return(
         <View>
-            {data.map((item, index)=> {
+            {localData.map((item, index)=> {
                 return(
+                    <TouchableOpacity style={styles.listContainer}>
                     <View>
                         <View style={styles.container}>
                             <View style={styles.leftColumn}>
                                 <Text style={styles.label}>Bill No.: </Text>
-                                <Text style={styles.value}>{item.length}</Text>
+                                <Text style={styles.value}>{JSON.parse(item).billNo}</Text>
                             </View>
                             <View style={styles.dateTimeColumn}>
                                 <View style={styles.rightColumn}>
                                     <Text style={styles.label}>Date: </Text>
-                                    <Text style={styles.value}>{date}</Text>
+                                    <Text style={styles.value}>{JSON.parse(item).date}</Text>
                                 </View>
                                 <View style={styles.rightColumn}>
                                     <Text style={styles.label}>Time: </Text>
-                                    <Text style={styles.value}>{time}</Text>
+                                    <Text style={styles.value}>{JSON.parse(item).time}</Text>
                                 </View>
                             </View>
                         </View>
                     </View>
+                    </TouchableOpacity>
                 )
             })}
         </View>
@@ -80,6 +96,13 @@ const styles = StyleSheet.create({
     },
     dateTimeColumn: {
         flexDirection: 'column',
+    },
+    listContainer: {
+        borderWidth: 1,
+        backgroundColor: '#cbcbcb',
+        borderColor: '#cbcbcb',
+        margin: 10,
+        borderRadius: 10,
     }
 });
 

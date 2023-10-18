@@ -192,32 +192,26 @@ async function saveFile(filePath) {
 
 // Functions to store data on local storage and retrieve/edit the data
 
-const setBillNo = async() => {
+export const initializeBillNo = async() => {
     try{
         await AsyncStorage.getItem('billNo');
     } catch(error){
         console.error(`error while setting billNo. for first Time`);
         await AsyncStorage.setItem('billNo','1');
     }
-
-    try{
-        let bill = await AsyncStorage.getItem('billNo');
-        bill = +bill + 1;
-        await AsyncStorage.setItem('billNo',bill.toString());
-    } catch(error){
-        console.error(`error while updating bill number: ${error}`);
-    }
 }
 
-export const saveData = async (billNo, data, date, time) => {
+export const saveData = async (data, date, time) => {
+    let bill = await AsyncStorage.getItem('billNo');
+    bill = +bill + 1;
     try {
         const dataToSave = {
-            billNo,
+            bill,
             data,
             date,
             time,
         };
-        await AsyncStorage.setItem("tableData", JSON.stringify(dataToSave));
+        await AsyncStorage.setItem(bill.toString(), JSON.stringify(dataToSave));
         console.log(`item saved`);
     } catch (error) {
         console.error("Error saving data: ", error);

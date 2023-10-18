@@ -25,7 +25,8 @@ import {
   getTotalPrice,
   onLayout,
   onSaveImageAsync,
-  saveData
+  saveData,
+    initializeBillNo,
 } from "./utils/Purchase";
 import moment from "moment/moment";
 
@@ -112,6 +113,10 @@ export const Purchase = ({ navigation }) => {
     getTotalPrice(one, two, three, four, five, six, seven, setGrandPrice, setGrandCFT, oneToElevenPrice, TwelveToSeventeenPrice, EighteenToTwentyThreePrice, TwentyFourToTwentyNinePrice, ThirtyToThirtyFivePrice, ThirtySixToFortySevenPrice, FortyEightAbovePrice);
   }, [one]);
 
+  useEffect(() => {
+    initializeBillNo();
+  },[]);
+
   // get height of table view
   const [tableHeight, setTableHeight] = useState(0);
 
@@ -124,8 +129,25 @@ export const Purchase = ({ navigation }) => {
       setBillNo(temp);
     } catch(error){
       console.error(error);
-      setBillNo('1');
     }
+  }
+
+  useEffect(() => {
+    retrieveBillNo();
+  },[]);
+
+  // Function to Save Data to the Local Storage
+  const [dataToBeSaved, setDataToBeSaved] = useState([]);
+  const saveDataToLocal = () => {
+    let temp = [];
+    oneToEleven.length > 0 ? temp.push(oneToEleven) : null;
+    TwelveToSeventeen.length > 0 ? temp.push(TwelveToSeventeen) : null;
+    EighteenToTwentyThree.length > 0 ? temp.push(EighteenToTwentyThree) : null;
+    TwentyFourToTwentyNine.length > 0 ? temp.push(TwentyFourToTwentyNine) : null;
+    ThirtyToThirtyFive.length > 0 ? temp.push(ThirtyToThirtyFive) : null;
+    ThirtySixToFortySeven.length > 0 ? temp.push(ThirtySixToFortySeven) : null;
+    FortyEightAbove.length > 0 ? temp.push(FortyEightAbove) : null;
+    setDataToBeSaved(temp);
   }
 
   return (
@@ -381,7 +403,7 @@ export const Purchase = ({ navigation }) => {
           </TouchableOpacity>
               <TouchableOpacity
                   style={styles.printButton}
-                  onPress={() => saveData(1,oneToEleven, moment().format('DD/MM/YY'), moment().format('hh:mm:ss') )}
+                  onPress={() => saveData(dataToBeSaved, moment().format('DD/MM/YY'), moment().format('hh:mm:ss') )}
               >
                 <Text style={styles.addPriceText}>
                   Save
