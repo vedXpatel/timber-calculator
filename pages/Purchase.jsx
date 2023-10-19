@@ -8,9 +8,8 @@ import {
   Dimensions,
   // TextInput
   ScrollView,
-  Button,
 } from "react-native";
-import {TextInput} from 'react-native-paper';
+import {TextInput, Button} from 'react-native-paper';
 import React, { useEffect, useState, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Table } from "../components/Table";
@@ -30,6 +29,7 @@ import {
     initializeBillNo,
 } from "./utils/Purchase";
 import moment from "moment/moment";
+import { FAB } from 'react-native-paper';
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
@@ -157,7 +157,6 @@ export const Purchase = ({ navigation }) => {
         <>
           <View style={styles.container}>
             <TextInput
-              placeholder="Length"
               label="Length"
               keyboardType="decimal-pad"
               onSubmitEditing={() => {
@@ -171,7 +170,6 @@ export const Purchase = ({ navigation }) => {
               ref={lengthRef}
             />
             <TextInput
-              placeholder="Girth"
               label='Girth'
               keyboardType="decimal-pad"
               onSubmitEditing={async () => {
@@ -188,8 +186,11 @@ export const Purchase = ({ navigation }) => {
               ref={girthRef}
             />
           </View>
-          <TouchableOpacity
-            style={styles.addPrice}
+          <Button
+              icon="currency-rupee"
+              mode="contained"
+              style={{width: width/2.2, margin: 10, alignSelf: 'center', justifyContent: 'center', backgroundColor: 'lightblue'}}
+            // style={styles.addPrice}
             onPress={() => {
               Alert.alert("Add Prices?", "Do you want to proceed?", [
                 { text: "Cancel", style: "cancel", onPress: () => {} },
@@ -204,13 +205,12 @@ export const Purchase = ({ navigation }) => {
               ]);
             }}
           >
-            <Text style={styles.addPriceText}>Add Prices</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('PurchaseHistory')}>
-            <Text>
-              Purchase History
-            </Text>
-          </TouchableOpacity>
+            Add Prices
+            {/*<Text style={styles.addPriceText}>Add Prices</Text>*/}
+          </Button>
+          <Button style={{width: width/2.2, margin: 10, alignSelf: 'center', justifyContent: 'center', backgroundColor: 'lightblue'}} icon="history" mode="contained" onPress={() => navigation.navigate('PurchaseHistory')}>
+            Purchase History
+          </Button>
         </>
       )}
       {isPriceScreen && (
@@ -503,7 +503,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     borderWidth: 1,
     borderColor: "white",
-    width: width / 3,
+    // width: width / 3,
     flex: 1,
     alignSelf: 'center',
     backgroundColor: 'lightblue',
@@ -541,6 +541,24 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   printRow: {
+    flexDirection: 'row',
+    padding: 20,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    // top: height / 2,
+    // top: 100,
+    top: 0,
+    bottom: 10,
+  },
+  addPricesButton:{
+    flex: 1,
+    padding: 10,
+    width: width,
+    alignItems: "center",
+    justifyContent: "center",
     flexDirection: 'row',
   }
 });
