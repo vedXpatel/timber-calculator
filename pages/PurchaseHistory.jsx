@@ -1,6 +1,7 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, ScrollView} from 'react-native';
 import {useState, useEffect} from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {EditTable} from '../components/EditTable';
 
 export const PurchaseHistory = ({navigation}) => {
 
@@ -9,6 +10,8 @@ export const PurchaseHistory = ({navigation}) => {
     const [date, setDate] = useState();
     const [time, setTime] = useState();
     const [localData, setLocalData] = useState([]);
+    const [tableView, setTableView] = useState(false);
+    const [tempData, setTempData] = useState([]);
 
         const retrieveData = async () => {
             setLocalData([]);
@@ -41,7 +44,11 @@ export const PurchaseHistory = ({navigation}) => {
         },[]);
 
     return(
-        <View>
+        <ScrollView>
+            {
+                !tableView ? (
+                    <View>
+
             <TouchableOpacity onPress={retrieveData}>
                 <Text>
                     Refresh
@@ -49,12 +56,15 @@ export const PurchaseHistory = ({navigation}) => {
             </TouchableOpacity>
             {localData.map((item, index)=> {
                 return(
-                    <TouchableOpacity style={styles.listContainer}>
+                    <TouchableOpacity style={styles.listContainer} onPress={() => {
+                        setTempData(JSON.parse(item).data);
+                        setTableView(true);
+                    }}>
                     <View>
                         <View style={styles.container}>
                             <View style={styles.leftColumn}>
                                 <Text style={styles.label}>Bill No.: </Text>
-                                <Text style={styles.value}>{JSON.parse(item).billNo}</Text>
+                                <Text style={styles.value}>{JSON.parse(item).tempBill || JSON.parse(item).billNo}</Text>
                             </View>
                             <View style={styles.dateTimeColumn}>
                                 <View style={styles.rightColumn}>
@@ -71,7 +81,10 @@ export const PurchaseHistory = ({navigation}) => {
                     </TouchableOpacity>
                 )
             })}
-        </View>
+                    </View>
+                ) : <EditTable data={tempData}/>
+            }
+        </ScrollView>
     )
 }
 

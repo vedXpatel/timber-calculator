@@ -403,7 +403,11 @@ export const Purchase = ({ navigation }) => {
           </TouchableOpacity>
               <TouchableOpacity
                   style={styles.printButton}
-                  onPress={() => saveData(dataToBeSaved, moment().format('DD/MM/YY'), moment().format('hh:mm:ss') )}
+                  onPress={() => {
+                    saveDataToLocal();
+                    saveData(dataToBeSaved, moment().format('DD/MM/YY'), moment().format('hh:mm:ss'))
+                  }
+              }
               >
                 <Text style={styles.addPriceText}>
                   Save
