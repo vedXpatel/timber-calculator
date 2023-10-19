@@ -2,6 +2,7 @@ import {StyleSheet, Text, TouchableOpacity, View, ScrollView} from 'react-native
 import {useState, useEffect} from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {EditTable} from '../components/EditTable';
+import Swipeout from 'react-native-swipeout';
 
 export const PurchaseHistory = ({navigation}) => {
 
@@ -13,10 +14,10 @@ export const PurchaseHistory = ({navigation}) => {
     const [tableView, setTableView] = useState(false);
     const [tempData, setTempData] = useState([]);
 
-        const retrieveData = async () => {
+    const retrieveData = async () => {
             setLocalData([]);
             const temp = await AsyncStorage.getItem('billNo');
-            console.log(`bill no set inside purchase history ${temp}`);
+            // console.log(`bill no set inside purchase history ${temp}`);
             setBillNo(temp);
             try {
                 const bill = +billNo;
@@ -24,7 +25,7 @@ export const PurchaseHistory = ({navigation}) => {
                     try{
                         if(await AsyncStorage.getItem(i.toString()) !== null){
                     const savedData = await AsyncStorage.getItem(i.toString());
-                    console.log(savedData);
+                    // console.log(savedData);
                     setLocalData((prev) => {
                         return [...prev, savedData]
                     });
@@ -33,7 +34,7 @@ export const PurchaseHistory = ({navigation}) => {
                         alert(`Error Fetching Local Data`);
                     }
                 }
-                console.log(localData);
+                // console.log(localData);
             } catch (error) {
                 console.error("Error retrieving data: ", error);
             }
@@ -56,15 +57,25 @@ export const PurchaseHistory = ({navigation}) => {
             </TouchableOpacity>
             {localData.map((item, index)=> {
                 return(
-                    <TouchableOpacity style={styles.listContainer} onPress={() => {
-                        setTempData(JSON.parse(item).data);
+                    <Swipeout right={[
+                        {
+                            text: 'Delete',
+                            onPress: async() => await AsyncStorage.removeItem(JSON.stringify(JSON.parse(item).billNo)),
+                            backgroundColor: 'red',
+                        }
+                    ]}>
+                        {
+                            console.log(localData)
+                        }
+                    <TouchableOpacity style={styles.listContainer} onPress={async() => {
+                        await setTempData(item.data);
                         setTableView(true);
                     }}>
                     <View>
                         <View style={styles.container}>
                             <View style={styles.leftColumn}>
                                 <Text style={styles.label}>Bill No.: </Text>
-                                <Text style={styles.value}>{JSON.parse(item).tempBill || JSON.parse(item).billNo}</Text>
+                                <Text style={styles.value}>{JSON.parse(item).billNo}</Text>
                             </View>
                             <View style={styles.dateTimeColumn}>
                                 <View style={styles.rightColumn}>
@@ -79,10 +90,11 @@ export const PurchaseHistory = ({navigation}) => {
                         </View>
                     </View>
                     </TouchableOpacity>
+                    </Swipeout>
                 )
             })}
                     </View>
-                ) : <EditTable data={tempData}/>
+                ) : <EditTable data={tempData} billNo={async() => await AsyncStorage.getItem('billNo')}/>
             }
         </ScrollView>
     )

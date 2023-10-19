@@ -6,10 +6,11 @@ import {
   BackHandler,
   TouchableOpacity,
   Dimensions,
-  TextInput,
+  // TextInput
   ScrollView,
   Button,
 } from "react-native";
+import {TextInput} from 'react-native-paper';
 import React, { useEffect, useState, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Table } from "../components/Table";
@@ -157,6 +158,7 @@ export const Purchase = ({ navigation }) => {
           <View style={styles.container}>
             <TextInput
               placeholder="Length"
+              label="Length"
               keyboardType="decimal-pad"
               onSubmitEditing={() => {
                 girthRef.current.focus();
@@ -170,12 +172,13 @@ export const Purchase = ({ navigation }) => {
             />
             <TextInput
               placeholder="Girth"
+              label='Girth'
               keyboardType="decimal-pad"
               onSubmitEditing={async () => {
                 await calculateCft(length, girth, setList);
                 await lengthRef.current.focus();
-                setLength();
-                setGirth();
+                setLength(null);
+                setGirth(null);
               }}
               clearButtonMode="while-editing"
               returnKeyType={"done"}
@@ -487,12 +490,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   input: {
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 10,
-    fontSize: 20,
+    // borderWidth: 1,
+    // borderColor: "black",
+    // borderRadius: 10,
+    // fontSize: 20,
     width: width / 3,
-    padding: 10,
+    // padding: 10,
     alignSelf: "center",
     margin: 10,
   },

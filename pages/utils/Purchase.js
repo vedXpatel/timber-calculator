@@ -194,7 +194,12 @@ async function saveFile(filePath) {
 
 export const initializeBillNo = async() => {
     try{
-        await AsyncStorage.getItem('billNo');
+        const temp = await AsyncStorage.getItem('billNo');
+        console.log(`initialized!!! ${temp}`)
+        if(temp === 'null'){
+            await AsyncStorage.setItem('billNo','1');
+            console.log(`set`)
+        }
     } catch(error){
         console.error(`error while setting billNo. for first Time`);
         await AsyncStorage.setItem('billNo','1');
