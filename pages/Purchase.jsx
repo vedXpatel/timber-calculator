@@ -6,10 +6,10 @@ import {
   BackHandler,
   TouchableOpacity,
   Dimensions,
-  TextInput,
+  // TextInput
   ScrollView,
-  Button,
 } from "react-native";
+import {TextInput, Button} from 'react-native-paper';
 import React, { useEffect, useState, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Table } from "../components/Table";
@@ -17,6 +17,19 @@ import { GrandCalculations } from "../components/GrandCalculations";
 import { TableHeader } from "../components/TableHeader";
 import * as MediaLibrary from "expo-media-library";
 import { captureRef } from "react-native-view-shot";
+import DateTime from '../components/Purchase/DateTime';
+import {
+  calculateCft,
+  categorize,
+  categoryTotalCFT,
+  getTotalPrice,
+  onLayout,
+  onSaveImageAsync,
+  saveData,
+    initializeBillNo,
+} from "./utils/Purchase";
+import moment from "moment/moment";
+import { FAB } from 'react-native-paper';
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
@@ -96,226 +109,46 @@ export const Purchase = ({ navigation }) => {
     return () => backHandler.remove();
   }, []);
 
-  const calculateCft = () => {
-    const CFT = (length * girth * girth) / 2304;
-    setList((prev) => {
-      return [
-        ...prev,
-        {
-          length: length,
-          girth: girth,
-          CFT: CFT,
-        },
-      ];
-    });
-  };
-
-  const storeListInAsyncStorage = async (key, value) => {
-    try {
-      await AsyncStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getListFromAsyncStorage = async (key) => {
-    try {
-      const value = await AsyncStorage.getItem(key);
-      if (value !== null) {
-        return JSON.parse(value);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const increaseAsyncStorageSize = async () => {
-    try {
-      await AsyncStorage.setItem("dummyKey", "dummyValue");
-      await AsyncStorage.removeItem("dummyKey");
-      await AsyncStorage.setMaxSize(100 * 1024 * 1024); // 100 MB
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const categorize = () => {
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].girth < 12 && list[i].girth > 0) {
-        setOneToEleven((prev) => {
-          return [...prev, list[i]];
-        });
-      } else if (list[i].girth < 18) {
-        setTwelveToSeventeen((prev) => {
-          return [...prev, list[i]];
-        });
-      } else if (list[i].girth < 24) {
-        setEighteenToTwentyThree((prev) => {
-          return [...prev, list[i]];
-        });
-      } else if (list[i].girth < 30) {
-        setTwentyFourToTwentyNine((prev) => {
-          return [...prev, list[i]];
-        });
-      } else if (list[i].girth < 36) {
-        setThirtyToThirtyFive((prev) => {
-          return [...prev, list[i]];
-        });
-      } else if (list[i].girth < 48) {
-        setThirtySixToFortySeven((prev) => {
-          return [...prev, list[i]];
-        });
-      } else if (list[i].girth >= 48) {
-        setFortyEightAbove((prev) => {
-          return [...prev, list[i]];
-        });
-      }
-    }
-  };
-
-  const categoryTotalCFT = () => {
-    let temp = 0;
-    let temp2 = 0;
-    let temp3 = 0;
-    let temp4 = 0;
-    let temp5 = 0;
-    let temp6 = 0;
-    let temp7 = 0;
-    for (let i = 0; i < oneToEleven.length; i++) {
-      temp += +oneToEleven[i].CFT;
-    }
-    for (let i = 0; i < TwelveToSeventeen.length; i++) {
-      temp2 += +TwelveToSeventeen[i].CFT;
-    }
-    for (let i = 0; i < EighteenToTwentyThree.length; i++) {
-      temp3 += +EighteenToTwentyThree[i].CFT;
-    }
-    for (let i = 0; i < TwentyFourToTwentyNine.length; i++) {
-      temp4 += +TwentyFourToTwentyNine[i].CFT;
-    }
-    for (let i = 0; i < ThirtyToThirtyFive.length; i++) {
-      temp5 += +ThirtyToThirtyFive[i].CFT;
-    }
-    for (let i = 0; i < ThirtySixToFortySeven.length; i++) {
-      temp6 += +ThirtySixToFortySeven[i].CFT;
-    }
-    for (let i = 0; i < FortyEightAbove.length; i++) {
-      temp7 += +FortyEightAbove[i].CFT;
-    }
-    setOne(temp);
-    console.log(temp);
-    console.log(one);
-    setTwo(temp2);
-    setThree(temp3);
-    setFour(temp4);
-    setFive(temp5);
-    setSix(temp6);
-    setSeven(temp7);
-  };
 
   useEffect(() => {
-    getTotalPrice();
+    getTotalPrice(one, two, three, four, five, six, seven, setGrandPrice, setGrandCFT, oneToElevenPrice, TwelveToSeventeenPrice, EighteenToTwentyThreePrice, TwentyFourToTwentyNinePrice, ThirtyToThirtyFivePrice, ThirtySixToFortySevenPrice, FortyEightAbovePrice);
   }, [one]);
 
-  const getTotalPrice = () => {
-    const onePrice = parseInt(one) * parseInt(oneToElevenPrice);
-    console.log(`total cft: ${one}`);
-    const twoPrice = parseInt(two) * parseInt(TwelveToSeventeenPrice);
-    const threePrice = parseInt(three) * parseInt(EighteenToTwentyThreePrice);
-    const fourPrice = parseInt(four) * parseInt(TwentyFourToTwentyNinePrice);
-    const fivePrice = parseInt(five) * parseInt(ThirtyToThirtyFivePrice);
-    const sixPrice = parseInt(six) * parseInt(ThirtySixToFortySevenPrice);
-    const sevenPrice = parseInt(seven) * parseInt(FortyEightAbovePrice);
-    const isValidNumber = (value) => typeof value === "number" && !isNaN(value);
-
-    // Calculate the total price, considering undefined variables as 0
-    const totalPrice =
-      (onePrice ? onePrice : 0) +
-      (twoPrice ? twoPrice : 0) +
-      (threePrice ? threePrice : 0) +
-      (fourPrice ? fourPrice : 0) +
-      (fivePrice ? fivePrice : 0) +
-      (sixPrice ? sixPrice : 0) +
-      (sevenPrice ? sevenPrice : 0);
-    setGrandPrice(totalPrice);
-
-    // Calculate the total CFT, considering undefined variables as 0
-    const totalCFT =
-      (one ? one : 0) +
-      (two ? two : 0) +
-      (three ? three : 0) +
-      (four ? four : 0) +
-      (five ? five : 0) +
-      (six ? six : 0) +
-      (seven ? seven : 0);
-    setGrandCFT(totalCFT);
-  };
+  useEffect(() => {
+    initializeBillNo();
+  },[]);
 
   // get height of table view
   const [tableHeight, setTableHeight] = useState(0);
-  const onLayout = (event) => {
-    const { x, y, height, width } = event.nativeEvent.layout;
-    setTableHeight(height);
-  };
 
-  // save view as local media in the device
-  const onSaveImageAsync = async () => {
-    console.log(`tableHeight: ${tableHeight}`);
-    try {
-      const localUri = await captureRef(imageRef, {
-        height: tableHeight,
-        quality: 1,
-      });
+  // Bill No. Initial
+  const [billNo, setBillNo] = useState('');
 
-      await MediaLibrary.saveToLibraryAsync(localUri);
-      console.log(localUri);
-      await saveFile(localUri);
-      if (localUri) {
-        alert("Saved!");
-      }
-    } catch (e) {
-      console.log(e);
+  const retrieveBillNo = async() => {
+    try{
+      const temp = await AsyncStorage.getItem('billNo');
+      setBillNo(temp);
+    } catch(error){
+      console.error(error);
     }
-  };
+  }
 
-  // adding to auto print album
-  async function saveFile(filePath) {
-    const albumName = "auto print";
-    const permission = await MediaLibrary.requestPermissionsAsync();
+  useEffect(() => {
+    retrieveBillNo();
+  },[]);
 
-    let asset = null;
-    if (permission.granted) {
-      try {
-        asset = await MediaLibrary.createAssetAsync(filePath);
-      } catch (e) {
-        console.error("MediaLibrary.createAssetAsync failed", e);
-      }
-
-      if (asset) {
-        try {
-          let album = await MediaLibrary.getAlbumAsync(albumName);
-          if (album) {
-            await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-          } else {
-            album = await MediaLibrary.createAlbumAsync(
-              albumName,
-              asset,
-              false
-            );
-          }
-          const assetResult = await MediaLibrary.getAssetsAsync({
-            first: 1,
-            album,
-            sortBy: MediaLibrary.SortBy.creationTime,
-          });
-          asset = await assetResult.assets[0];
-        } catch (e) {
-          console.error(" failed", e);
-        }
-      } else {
-        console.error("unable to use MediaLibrary, can not create assets");
-      }
-    }
+  // Function to Save Data to the Local Storage
+  const [dataToBeSaved, setDataToBeSaved] = useState([]);
+  const saveDataToLocal = () => {
+    let temp = [];
+    oneToEleven.length > 0 ? temp.push(oneToEleven) : null;
+    TwelveToSeventeen.length > 0 ? temp.push(TwelveToSeventeen) : null;
+    EighteenToTwentyThree.length > 0 ? temp.push(EighteenToTwentyThree) : null;
+    TwentyFourToTwentyNine.length > 0 ? temp.push(TwentyFourToTwentyNine) : null;
+    ThirtyToThirtyFive.length > 0 ? temp.push(ThirtyToThirtyFive) : null;
+    ThirtySixToFortySeven.length > 0 ? temp.push(ThirtySixToFortySeven) : null;
+    FortyEightAbove.length > 0 ? temp.push(FortyEightAbove) : null;
+    setDataToBeSaved(temp);
   }
 
   return (
@@ -324,7 +157,7 @@ export const Purchase = ({ navigation }) => {
         <>
           <View style={styles.container}>
             <TextInput
-              placeholder="Length"
+              label="Length"
               keyboardType="decimal-pad"
               onSubmitEditing={() => {
                 girthRef.current.focus();
@@ -337,13 +170,13 @@ export const Purchase = ({ navigation }) => {
               ref={lengthRef}
             />
             <TextInput
-              placeholder="Girth"
+              label='Girth'
               keyboardType="decimal-pad"
               onSubmitEditing={async () => {
-                await calculateCft();
+                await calculateCft(length, girth, setList);
                 await lengthRef.current.focus();
-                setLength();
-                setGirth();
+                setLength(null);
+                setGirth(null);
               }}
               clearButtonMode="while-editing"
               returnKeyType={"done"}
@@ -353,8 +186,11 @@ export const Purchase = ({ navigation }) => {
               ref={girthRef}
             />
           </View>
-          <TouchableOpacity
-            style={styles.addPrice}
+          <Button
+              icon="currency-rupee"
+              mode="contained"
+              style={{width: width/2.2, margin: 10, alignSelf: 'center', justifyContent: 'center', backgroundColor: 'lightblue'}}
+            // style={styles.addPrice}
             onPress={() => {
               Alert.alert("Add Prices?", "Do you want to proceed?", [
                 { text: "Cancel", style: "cancel", onPress: () => {} },
@@ -362,15 +198,19 @@ export const Purchase = ({ navigation }) => {
                   text: "Ok",
                   style: "OK",
                   onPress: () => {
-                    categorize();
+                    categorize(list, setOneToEleven, setTwelveToSeventeen, setEighteenToTwentyThree, setTwentyFourToTwentyNine, setThirtyToThirtyFive, setThirtySixToFortySeven, setFortyEightAbove);
                     setIsPriceScreen(true);
                   },
                 },
               ]);
             }}
           >
-            <Text style={styles.addPriceText}>Add Prices</Text>
-          </TouchableOpacity>
+            Add Prices
+            {/*<Text style={styles.addPriceText}>Add Prices</Text>*/}
+          </Button>
+          <Button style={{width: width/2.2, margin: 10, alignSelf: 'center', justifyContent: 'center', backgroundColor: 'lightblue'}} icon="history" mode="contained" onPress={() => navigation.navigate('PurchaseHistory')}>
+            Purchase History
+          </Button>
         </>
       )}
       {isPriceScreen && (
@@ -541,9 +381,9 @@ export const Purchase = ({ navigation }) => {
           <TouchableOpacity
           style={styles.addPrice}
             onPress={() => {
-              categoryTotalCFT();
+              categoryTotalCFT(oneToEleven, TwelveToSeventeen, EighteenToTwentyThree, TwentyFourToTwentyNine, ThirtyToThirtyFive, ThirtySixToFortySeven, FortyEightAbove, setOne, setTwo, setThree, setFour, setFive, setSix, setSeven);
               // getCategoryPrice();
-              getTotalPrice();
+              getTotalPrice(one, two, three, four, five, six, seven, setGrandPrice, setGrandCFT, oneToElevenPrice, TwelveToSeventeenPrice, EighteenToTwentyThreePrice, TwentyFourToTwentyNinePrice, ThirtyToThirtyFivePrice, ThirtySixToFortySevenPrice, FortyEightAbovePrice);
               setIsInvoiceScreen(true);
               setIsPriceScreen(false);
             }}
@@ -554,11 +394,34 @@ export const Purchase = ({ navigation }) => {
         </View>
       )}
       {isInvoiceScreen && (
-        <View ref={imageRef} onLayout={onLayout} style={{ overflow: "hidden" }}>
-          <Text> Date: Time:</Text>
+          <View>
+            <View style={styles.printRow}>
+          <TouchableOpacity
+              style={styles.printButton}
+              onPress={() => onSaveImageAsync(tableHeight, imageRef)}
+          >
+            <Text style={styles.addPriceText}>
+              Print
+            </Text>
+          </TouchableOpacity>
+              <TouchableOpacity
+                  style={styles.printButton}
+                  onPress={() => {
+                    saveDataToLocal();
+                    saveData(dataToBeSaved, moment().format('DD/MM/YY'), moment().format('hh:mm:ss'))
+                  }
+              }
+              >
+                <Text style={styles.addPriceText}>
+                  Save
+                </Text>
+              </TouchableOpacity>
+            </View>
+        <View ref={imageRef} onLayout={(event) => onLayout(event, setTableHeight)} style={{ overflow: "hidden" }}>
+          <DateTime billNo={billNo}/>
           <TableHeader />
           {oneToEleven.length > 0 && (
-            <Table data={oneToEleven} cft={one} price={oneToElevenPrice} 
+            <Table data={oneToEleven} cft={one} price={oneToElevenPrice}
             tableIndex={0} setTableIndex={setTableIndex}/>
           )}
           {TwelveToSeventeen.length > 0 && (
@@ -611,15 +474,8 @@ export const Purchase = ({ navigation }) => {
           )}
           <GrandCalculations grandCFT={grandCFT} grandPrice={grandPrice}
           tableIndex={tableIndex} setTableIndex={setTableIndex} />
-          <TouchableOpacity
-            style={styles.printButton}
-            onPress={onSaveImageAsync}
-          >
-            <Text style={styles.addPriceText}>
-              Print
-            </Text>
-          </TouchableOpacity>
         </View>
+          </View>
       )}
     </ScrollView>
   );
@@ -634,12 +490,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   input: {
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 10,
-    fontSize: 20,
+    // borderWidth: 1,
+    // borderColor: "black",
+    // borderRadius: 10,
+    // fontSize: 20,
     width: width / 3,
-    padding: 10,
+    // padding: 10,
     alignSelf: "center",
     margin: 10,
   },
@@ -647,7 +503,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     borderWidth: 1,
     borderColor: "white",
-    width: width / 3,
+    // width: width / 3,
     flex: 1,
     alignSelf: 'center',
     backgroundColor: 'lightblue',
@@ -683,5 +539,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row', //
     padding: 20,
+  },
+  printRow: {
+    flexDirection: 'row',
+    padding: 20,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    // top: height / 2,
+    // top: 100,
+    top: 0,
+    bottom: 10,
+  },
+  addPricesButton:{
+    flex: 1,
+    padding: 10,
+    width: width,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: 'row',
   }
 });

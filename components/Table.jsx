@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 export const Table = (props) => {
@@ -30,7 +30,7 @@ export const Table = (props) => {
 
 const styles = StyleSheet.create({
   table: {
-    width: "100%", // Width spans the screen
+    width: "+100%", // Width spans the screen
   },
   headerRow: {
     flexDirection: "row",

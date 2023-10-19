@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity,
   Dimensions,
+    Image,
 } from "react-native";
 
 const height = Dimensions.get("window").height;
@@ -13,19 +14,17 @@ export const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={styles.button}
         onPress={() => navigation.navigate("Purchase")}
-      >
-        <Text style={styles.buttonText}>Purchase ( Log Wood )</Text>
+       style={{marginTop: 10,}}>
+          <Image source={require('../assets/Purchase.png')} />
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.button}
         onPress={() => navigation.navigate("JobWork")}
-      >
-        <Text style={styles.buttonText}>Job Work</Text>
+       style={{marginTop: 10,}}>
+        <Image source={require('../assets/JobWork.png')} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Cut Size</Text>
+      <TouchableOpacity style={{marginTop: 10,}}>
+        <Image source={require('../assets/CutSize.png')} />
       </TouchableOpacity>
     </View>
   );
@@ -37,20 +36,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    padding: 30,
   },
   button: {
-    padding: 10,
-    backgroundColor: "#DDDDDD",
     width: width / 1.4,
     height: 52,
     textAlign: "center",
-    borderRadius: 10,
     marginBottom: height / 30,
     borderWidth: 1,
     borderColor: "white",
     backgroundColor: 'lightblue',
     padding: 10,
     borderRadius: 10,
+  },
+  buttonView:{
+
   },
   buttonText: {
     fontSize: 25,

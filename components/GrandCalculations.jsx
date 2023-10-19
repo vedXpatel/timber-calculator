@@ -1,9 +1,6 @@
 import React from "react";
-import { DataTable } from "react-native-paper";
 import { Text, Dimensions, StyleSheet, View } from "react-native";
 
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
 
 export const GrandCalculations = (props) => {
   const { grandCFT, grandPrice } = props;
@@ -21,7 +18,7 @@ export const GrandCalculations = (props) => {
         <Text style={[styles.totalCell, { flex: 3 }]}>
           Grand Price
         </Text>
-        <Text style={[styles.totalCell, { flex: 1 }]}>{grandPrice}</Text>
+        <Text style={[styles.totalCell, { flex: 1 }]}>{grandPrice.toFixed(2)}</Text>
       </View>
     </View>
   );
