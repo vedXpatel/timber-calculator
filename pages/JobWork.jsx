@@ -166,7 +166,6 @@ export const JobWork = () => {
               margin: 10,
               alignSelf: "center",
               justifyContent: "center",
-              backgroundColor: "lightblue",
             }}
             onPress={() => {
               setPrintScreen(true);
@@ -195,7 +194,6 @@ export const JobWork = () => {
               margin: 10,
               alignSelf: "center",
               justifyContent: "center",
-              backgroundColor: "lightblue",
             }}
             onPress={() => {
               calculateTotalValues();
@@ -271,6 +269,7 @@ export const JobWork = () => {
             </Text>
           </TouchableOpacity> */}
           <Button
+          icon='printer'
           mode="contained"
           style={{width: width/3, alignSelf: 'center', flex: 1,marginTop: 10,}}
            onPress={onSaveImageAsync}

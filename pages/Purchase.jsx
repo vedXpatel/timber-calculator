@@ -9,7 +9,7 @@ import {
   // TextInput
   ScrollView,
 } from "react-native";
-import {TextInput, Button} from 'react-native-paper';
+import { TextInput, Button } from "react-native-paper";
 import React, { useEffect, useState, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Table } from "../components/Table";
@@ -17,7 +17,7 @@ import { GrandCalculations } from "../components/GrandCalculations";
 import { TableHeader } from "../components/TableHeader";
 import * as MediaLibrary from "expo-media-library";
 import { captureRef } from "react-native-view-shot";
-import DateTime from '../components/Purchase/DateTime';
+import DateTime from "../components/Purchase/DateTime";
 import {
   calculateCft,
   categorize,
@@ -26,10 +26,10 @@ import {
   onLayout,
   onSaveImageAsync,
   saveData,
-    initializeBillNo,
+  initializeBillNo,
 } from "./utils/Purchase";
 import moment from "moment/moment";
-import { FAB } from 'react-native-paper';
+import { FAB } from "react-native-paper";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
@@ -109,51 +109,83 @@ export const Purchase = ({ navigation }) => {
     return () => backHandler.remove();
   }, []);
 
-
   useEffect(() => {
-    getTotalPrice(one, two, three, four, five, six, seven, setGrandPrice, setGrandCFT, oneToElevenPrice, TwelveToSeventeenPrice, EighteenToTwentyThreePrice, TwentyFourToTwentyNinePrice, ThirtyToThirtyFivePrice, ThirtySixToFortySevenPrice, FortyEightAbovePrice);
+    getTotalPrice(
+      one,
+      two,
+      three,
+      four,
+      five,
+      six,
+      seven,
+      setGrandPrice,
+      setGrandCFT,
+      oneToElevenPrice,
+      TwelveToSeventeenPrice,
+      EighteenToTwentyThreePrice,
+      TwentyFourToTwentyNinePrice,
+      ThirtyToThirtyFivePrice,
+      ThirtySixToFortySevenPrice,
+      FortyEightAbovePrice
+    );
   }, [one]);
 
   useEffect(() => {
     initializeBillNo();
-  },[]);
+  }, []);
 
   // get height of table view
   const [tableHeight, setTableHeight] = useState(0);
 
   // Bill No. Initial
-  const [billNo, setBillNo] = useState('');
+  const [billNo, setBillNo] = useState("");
 
-  const retrieveBillNo = async() => {
-    try{
-      const temp = await AsyncStorage.getItem('billNo');
+  const retrieveBillNo = async () => {
+    try {
+      const temp = await AsyncStorage.getItem("billNo");
       setBillNo(temp);
-    } catch(error){
+    } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     retrieveBillNo();
-  },[]);
+  }, []);
 
   // Function to Save Data to the Local Storage
   const [dataToBeSaved, setDataToBeSaved] = useState([]);
-  const saveDataToLocal = async() => {
+  const saveDataToLocal = async () => {
     let temp = [];
-    await oneToEleven.length > 0 ? temp.push(oneToEleven) : null;
-    await TwelveToSeventeen.length > 0 ? temp.push(TwelveToSeventeen) : null;
-    await EighteenToTwentyThree.length > 0 ? temp.push(EighteenToTwentyThree) : null;
-    await TwentyFourToTwentyNine.length > 0 ? temp.push(TwentyFourToTwentyNine) : null;
-    await ThirtyToThirtyFive.length > 0 ? temp.push(ThirtyToThirtyFive) : null;
-    await ThirtySixToFortySeven.length > 0 ? temp.push(ThirtySixToFortySeven) : null;
-    await FortyEightAbove.length > 0 ? temp.push(FortyEightAbove) : null;
+    (await oneToEleven.length) > 0 ? temp.push(oneToEleven) : null;
+    (await TwelveToSeventeen.length) > 0 ? temp.push(TwelveToSeventeen) : null;
+    (await EighteenToTwentyThree.length) > 0
+      ? temp.push(EighteenToTwentyThree)
+      : null;
+    (await TwentyFourToTwentyNine.length) > 0
+      ? temp.push(TwentyFourToTwentyNine)
+      : null;
+    (await ThirtyToThirtyFive.length) > 0
+      ? temp.push(ThirtyToThirtyFive)
+      : null;
+    (await ThirtySixToFortySeven.length) > 0
+      ? temp.push(ThirtySixToFortySeven)
+      : null;
+    (await FortyEightAbove.length) > 0 ? temp.push(FortyEightAbove) : null;
     setDataToBeSaved(temp);
-  }
+  };
 
   useEffect(() => {
     saveDataToLocal();
-  },[oneToEleven,TwelveToSeventeen,EighteenToTwentyThree,TwentyFourToTwentyNine,ThirtyToThirtyFive,ThirtySixToFortySeven,FortyEightAbove])
+  }, [
+    oneToEleven,
+    TwelveToSeventeen,
+    EighteenToTwentyThree,
+    TwentyFourToTwentyNine,
+    ThirtyToThirtyFive,
+    ThirtySixToFortySeven,
+    FortyEightAbove,
+  ]);
 
   return (
     <ScrollView style={styles.parentView}>
@@ -174,7 +206,7 @@ export const Purchase = ({ navigation }) => {
               ref={lengthRef}
             />
             <TextInput
-              label='Girth'
+              label="Girth"
               keyboardType="decimal-pad"
               onSubmitEditing={async () => {
                 await calculateCft(length, girth, setList);
@@ -191,9 +223,14 @@ export const Purchase = ({ navigation }) => {
             />
           </View>
           <Button
-              icon="currency-rupee"
-              mode="contained"
-              style={{width: width/2.2, margin: 10, alignSelf: 'center', justifyContent: 'center', backgroundColor: 'lightblue'}}
+            icon="currency-rupee"
+            mode="contained"
+            style={{
+              width: width / 2.2,
+              margin: 10,
+              alignSelf: "center",
+              justifyContent: "center",
+            }}
             // style={styles.addPrice}
             onPress={() => {
               Alert.alert("Add Prices?", "Do you want to proceed?", [
@@ -202,7 +239,16 @@ export const Purchase = ({ navigation }) => {
                   text: "Ok",
                   style: "OK",
                   onPress: () => {
-                    categorize(list, setOneToEleven, setTwelveToSeventeen, setEighteenToTwentyThree, setTwentyFourToTwentyNine, setThirtyToThirtyFive, setThirtySixToFortySeven, setFortyEightAbove);
+                    categorize(
+                      list,
+                      setOneToEleven,
+                      setTwelveToSeventeen,
+                      setEighteenToTwentyThree,
+                      setTwentyFourToTwentyNine,
+                      setThirtyToThirtyFive,
+                      setThirtySixToFortySeven,
+                      setFortyEightAbove
+                    );
                     setIsPriceScreen(true);
                   },
                 },
@@ -212,7 +258,17 @@ export const Purchase = ({ navigation }) => {
             Add Prices
             {/*<Text style={styles.addPriceText}>Add Prices</Text>*/}
           </Button>
-          <Button style={{width: width/2.2, margin: 10, alignSelf: 'center', justifyContent: 'center', backgroundColor: 'lightblue'}} icon="history" mode="contained" onPress={() => navigation.navigate('PurchaseHistory')}>
+          <Button
+            style={{
+              width: width / 2.2,
+              margin: 10,
+              alignSelf: "center",
+              justifyContent: "center",
+            }}
+            icon="history"
+            mode="contained"
+            onPress={() => navigation.navigate("PurchaseHistory")}
+          >
             Purchase History
           </Button>
         </>
@@ -377,109 +433,194 @@ export const Purchase = ({ navigation }) => {
             </View>
           )}
           <View style={styles.buttonContainer}>
-          <TouchableOpacity style={[styles.addPrice,{width:150,marginRight:20,}]} onPress={() => setIsPriceScreen(false)} >
-            <Text style={styles.addPriceText}>
+            <Button
+              mode="contained"
+              style={[styles.addPrice]}
+              onPress={() => setIsPriceScreen(false)}
+            >
               Edit Purchase
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-          style={styles.addPrice}
-            onPress={() => {
-              categoryTotalCFT(oneToEleven, TwelveToSeventeen, EighteenToTwentyThree, TwentyFourToTwentyNine, ThirtyToThirtyFive, ThirtySixToFortySeven, FortyEightAbove, setOne, setTwo, setThree, setFour, setFive, setSix, setSeven);
-              // getCategoryPrice();
-              getTotalPrice(one, two, three, four, five, six, seven, setGrandPrice, setGrandCFT, oneToElevenPrice, TwelveToSeventeenPrice, EighteenToTwentyThreePrice, TwentyFourToTwentyNinePrice, ThirtyToThirtyFivePrice, ThirtySixToFortySevenPrice, FortyEightAbovePrice);
-              setIsInvoiceScreen(true);
-              setIsPriceScreen(false);
-            }}
-          >
-            <Text style={styles.addPriceText}>Calculate</Text>
-          </TouchableOpacity>
+            </Button>
+            <Button
+              mode="contained"
+              style={styles.addPrice}
+              onPress={() => {
+                categoryTotalCFT(
+                  oneToEleven,
+                  TwelveToSeventeen,
+                  EighteenToTwentyThree,
+                  TwentyFourToTwentyNine,
+                  ThirtyToThirtyFive,
+                  ThirtySixToFortySeven,
+                  FortyEightAbove,
+                  setOne,
+                  setTwo,
+                  setThree,
+                  setFour,
+                  setFive,
+                  setSix,
+                  setSeven
+                );
+                // getCategoryPrice();
+                getTotalPrice(
+                  one,
+                  two,
+                  three,
+                  four,
+                  five,
+                  six,
+                  seven,
+                  setGrandPrice,
+                  setGrandCFT,
+                  oneToElevenPrice,
+                  TwelveToSeventeenPrice,
+                  EighteenToTwentyThreePrice,
+                  TwentyFourToTwentyNinePrice,
+                  ThirtyToThirtyFivePrice,
+                  ThirtySixToFortySevenPrice,
+                  FortyEightAbovePrice
+                );
+                setIsInvoiceScreen(true);
+                setIsPriceScreen(false);
+              }}
+            >
+              Calculate
+            </Button>
           </View>
         </View>
       )}
       {isInvoiceScreen && (
-          <View>
-            <View style={styles.printRow}>
-          <TouchableOpacity
+        <View>
+          <View style={styles.printRow}>
+            <Button
+            mode="contained"
               style={styles.printButton}
               onPress={() => onSaveImageAsync(tableHeight, imageRef)}
-          >
-            <Text style={styles.addPriceText}>
-              Print
-            </Text>
-          </TouchableOpacity>
-              <TouchableOpacity
-                  style={styles.printButton}
-                  onPress={async () => {
-                    await saveDataToLocal();
-                    saveData(dataToBeSaved, moment().format('DD/MM/YY'), moment().format('hh:mm:ss'))
-                  }
-              }
-              >
-                <Text style={styles.addPriceText}>
-                  Save
-                </Text>
-              </TouchableOpacity>
-            </View>
-        <View ref={imageRef} onLayout={(event) => onLayout(event, setTableHeight)} style={{ overflow: "hidden" }}>
-          <DateTime billNo={billNo}/>
-          <TableHeader />
-          {oneToEleven.length > 0 && (
-            <Table data={oneToEleven} cft={one} price={oneToElevenPrice}
-            tableIndex={0} setTableIndex={setTableIndex}/>
-          )}
-          {TwelveToSeventeen.length > 0 && (
-            <Table
-              data={TwelveToSeventeen}
-              cft={two}
-              price={TwelveToSeventeenPrice}
-              tableIndex={tableIndex + TwelveToSeventeen.length} setTableIndex={setTableIndex}
-            />
-          )}
-          {EighteenToTwentyThree.length > 0 && (
-            <Table
-              data={EighteenToTwentyThree}
-              cft={three}
-              price={EighteenToTwentyThreePrice}
-              tableIndex={tableIndex + TwelveToSeventeen.length + EighteenToTwentyThree.length} setTableIndex={setTableIndex}
-            />
-          )}
-          {TwentyFourToTwentyNine.length > 0 && (
-            <Table
-              data={TwentyFourToTwentyNine}
-              cft={four}
-              price={TwentyFourToTwentyNinePrice}
-              tableIndex={tableIndex + TwelveToSeventeen.length + EighteenToTwentyThree.length + TwentyFourToTwentyNine.length} setTableIndex={setTableIndex}
-            />
-          )}
-          {ThirtyToThirtyFive.length > 0 && (
-            <Table
-              data={ThirtyToThirtyFive}
-              cft={five}
-              price={ThirtyToThirtyFivePrice}
-              tableIndex={tableIndex + TwelveToSeventeen.length + EighteenToTwentyThree.length + TwentyFourToTwentyNine.length + ThirtyToThirtyFive.length} setTableIndex={setTableIndex}
-            />
-          )}
-          {ThirtySixToFortySeven.length > 0 && (
-            <Table
-              data={ThirtySixToFortySeven}
-              cft={six}
-              price={ThirtySixToFortySevenPrice}
-              tableIndex={tableIndex + TwelveToSeventeen.length + EighteenToTwentyThree.length + TwentyFourToTwentyNine.length + ThirtyToThirtyFive.length + ThirtySixToFortySeven.length} setTableIndex={setTableIndex}
-            />
-          )}
-          {FortyEightAbove.length > 0 && (
-            <Table
-              data={FortyEightAbove}
-              cft={seven}
-              price={FortyEightAbovePrice}
-              tableIndex={tableIndex + TwelveToSeventeen.length + EighteenToTwentyThree.length + TwentyFourToTwentyNine.length + ThirtyToThirtyFive.length + ThirtySixToFortySeven.length + FortyEightAbove.length} setTableIndex={setTableIndex}
-            />
-          )}
-          <GrandCalculations grandCFT={grandCFT} grandPrice={grandPrice}
-          tableIndex={tableIndex} setTableIndex={setTableIndex} />
-        </View>
+            >
+Print          
+  </Button>
+            <Button
+            mode="contained"
+              style={styles.printButton}
+              onPress={async () => {
+                await saveDataToLocal();
+                saveData(
+                  dataToBeSaved,
+                  moment().format("DD/MM/YY"),
+                  moment().format("hh:mm:ss")
+                );
+              }}
+            >
+Save
+         </Button>
           </View>
+          <View
+            ref={imageRef}
+            onLayout={(event) => onLayout(event, setTableHeight)}
+            style={{ overflow: "hidden" }}
+          >
+            <DateTime billNo={billNo} />
+            <TableHeader />
+            {oneToEleven.length > 0 && (
+              <Table
+                data={oneToEleven}
+                cft={one}
+                price={oneToElevenPrice}
+                tableIndex={0}
+                setTableIndex={setTableIndex}
+              />
+            )}
+            {TwelveToSeventeen.length > 0 && (
+              <Table
+                data={TwelveToSeventeen}
+                cft={two}
+                price={TwelveToSeventeenPrice}
+                tableIndex={tableIndex + TwelveToSeventeen.length}
+                setTableIndex={setTableIndex}
+              />
+            )}
+            {EighteenToTwentyThree.length > 0 && (
+              <Table
+                data={EighteenToTwentyThree}
+                cft={three}
+                price={EighteenToTwentyThreePrice}
+                tableIndex={
+                  tableIndex +
+                  TwelveToSeventeen.length +
+                  EighteenToTwentyThree.length
+                }
+                setTableIndex={setTableIndex}
+              />
+            )}
+            {TwentyFourToTwentyNine.length > 0 && (
+              <Table
+                data={TwentyFourToTwentyNine}
+                cft={four}
+                price={TwentyFourToTwentyNinePrice}
+                tableIndex={
+                  tableIndex +
+                  TwelveToSeventeen.length +
+                  EighteenToTwentyThree.length +
+                  TwentyFourToTwentyNine.length
+                }
+                setTableIndex={setTableIndex}
+              />
+            )}
+            {ThirtyToThirtyFive.length > 0 && (
+              <Table
+                data={ThirtyToThirtyFive}
+                cft={five}
+                price={ThirtyToThirtyFivePrice}
+                tableIndex={
+                  tableIndex +
+                  TwelveToSeventeen.length +
+                  EighteenToTwentyThree.length +
+                  TwentyFourToTwentyNine.length +
+                  ThirtyToThirtyFive.length
+                }
+                setTableIndex={setTableIndex}
+              />
+            )}
+            {ThirtySixToFortySeven.length > 0 && (
+              <Table
+                data={ThirtySixToFortySeven}
+                cft={six}
+                price={ThirtySixToFortySevenPrice}
+                tableIndex={
+                  tableIndex +
+                  TwelveToSeventeen.length +
+                  EighteenToTwentyThree.length +
+                  TwentyFourToTwentyNine.length +
+                  ThirtyToThirtyFive.length +
+                  ThirtySixToFortySeven.length
+                }
+                setTableIndex={setTableIndex}
+              />
+            )}
+            {FortyEightAbove.length > 0 && (
+              <Table
+                data={FortyEightAbove}
+                cft={seven}
+                price={FortyEightAbovePrice}
+                tableIndex={
+                  tableIndex +
+                  TwelveToSeventeen.length +
+                  EighteenToTwentyThree.length +
+                  TwentyFourToTwentyNine.length +
+                  ThirtyToThirtyFive.length +
+                  ThirtySixToFortySeven.length +
+                  FortyEightAbove.length
+                }
+                setTableIndex={setTableIndex}
+              />
+            )}
+            <GrandCalculations
+              grandCFT={grandCFT}
+              grandPrice={grandPrice}
+              tableIndex={tableIndex}
+              setTableIndex={setTableIndex}
+            />
+          </View>
+        </View>
       )}
     </ScrollView>
   );
@@ -504,15 +645,13 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   addPrice: {
-    position: 'relative',
+    position: "relative",
     borderWidth: 1,
     borderColor: "white",
     // width: width / 3,
     flex: 1,
-    alignSelf: 'center',
-    backgroundColor: 'lightblue',
-    padding: 10,
-    borderRadius: 10,
+    margin: 10,
+    alignSelf: "center",
   },
   addPriceText: {
     fontSize: 20,
@@ -526,30 +665,27 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   printButton: {
-    position: 'relative',
-    borderWidth: 1,
-    borderColor: "white",
+    position: "relative",
     width: width / 3,
     flex: 1,
-    alignSelf: 'center',
-    backgroundColor: 'lightblue',
-    padding: 10,
-    borderRadius: 10,
+    margin: 10,
+    alignSelf: "center",
+    marginBottom: 0,
   },
-  buttonContainer:{
+  buttonContainer: {
     flex: 1,
-    backgroundColor: 'white', // Background color of the screen
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row', //
+    backgroundColor: "white", // Background color of the screen
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row", //
     padding: 20,
   },
   printRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 20,
   },
   fab: {
-    position: 'absolute',
+    position: "absolute",
     margin: 16,
     right: 0,
     // top: height / 2,
@@ -557,12 +693,12 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 10,
   },
-  addPricesButton:{
+  addPricesButton: {
     flex: 1,
     padding: 10,
     width: width,
     alignItems: "center",
     justifyContent: "center",
-    flexDirection: 'row',
-  }
+    flexDirection: "row",
+  },
 });
