@@ -492,14 +492,14 @@ export const Purchase = ({ navigation }) => {
         <View>
           <View style={styles.printRow}>
             <Button
-            mode="contained"
+              mode="contained"
               style={styles.printButton}
               onPress={() => onSaveImageAsync(tableHeight, imageRef)}
             >
-Print          
-  </Button>
+              Print
+            </Button>
             <Button
-            mode="contained"
+              mode="contained"
               style={styles.printButton}
               onPress={async () => {
                 await saveDataToLocal();
@@ -510,8 +510,8 @@ Print
                 );
               }}
             >
-Save
-         </Button>
+              Save
+            </Button>
           </View>
           <View
             ref={imageRef}

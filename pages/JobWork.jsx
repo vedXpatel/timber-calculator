@@ -206,7 +206,7 @@ export const JobWork = () => {
       )}
       {calculateScreen && (
         <View>
-          <DateTime/>
+          <DateTime />
           <View style={styles.table}>
             <View style={styles.headerRow}>
               <Text style={styles.headerCell}>Sr</Text>
@@ -215,65 +215,57 @@ export const JobWork = () => {
               <Text style={[styles.headerCell, { flex: 1 }]}>Cubic MTR</Text>
             </View>
           </View>
-            {list.map((item, index) => (
-              <View style={styles.dataRow} key={index}>
-                <Text style={styles.cell}>{index + 1}</Text>
-                <Text style={styles.cell}>{item.length}</Text>
-                <Text style={styles.cell}>{item.girth}</Text>
-                <Text style={[styles.cell, { flex: 1 }]}>
-                  {item.CMT.toFixed(4)}
-                </Text>
-              </View>
-            ))}
-            <View
-              style={[
-                styles.totalRow,
-                { borderTopWidth: 1, borderColor: "#000" },
-              ]}
-            >
-              <Text style={[styles.totalCell, { flex: 3 }]}>Total CMT</Text>
-              <Text style={[styles.totalCell, { flex: 1 }]}>
-                {totalCMT.toFixed(4)}
+          {list.map((item, index) => (
+            <View style={styles.dataRow} key={index}>
+              <Text style={styles.cell}>{index + 1}</Text>
+              <Text style={styles.cell}>{item.length}</Text>
+              <Text style={styles.cell}>{item.girth}</Text>
+              <Text style={[styles.cell, { flex: 1 }]}>
+                {item.CMT.toFixed(4)}
               </Text>
             </View>
-            <View
-              style={[
-                styles.totalRow,
-                
-              ]}
-            >
-              <Text style={[styles.totalCell, { flex: 3 }]}>Total CFT</Text>
-              <Text style={[styles.totalCell, { flex: 1 }]}>
-                {totalCFT.toFixed(4)}
-              </Text>
-            </View>
-            <View
-              style={[
-                styles.totalRow,
-                { borderBottomWidth: 1, borderColor: "#000" },
-              ]}
-            >
-              <Text style={[styles.totalCell, { flex: 3 }]}>
-                Total Price (@{price})
-              </Text>
-              <Text style={[styles.totalCell, { flex: 1 }]}>
-                {(totalCFT * price).toFixed(2)}
-              </Text>
-            </View>
-          {/* <TouchableOpacity
-            style={styles.printButton}
+          ))}
+          <View
+            style={[
+              styles.totalRow,
+              { borderTopWidth: 1, borderColor: "#000" },
+            ]}
+          >
+            <Text style={[styles.totalCell, { flex: 3 }]}>Total CMT</Text>
+            <Text style={[styles.totalCell, { flex: 1 }]}>
+              {totalCMT.toFixed(4)}
+            </Text>
+          </View>
+          <View style={[styles.totalRow]}>
+            <Text style={[styles.totalCell, { flex: 3 }]}>Total CFT</Text>
+            <Text style={[styles.totalCell, { flex: 1 }]}>
+              {totalCFT.toFixed(4)}
+            </Text>
+          </View>
+          <View
+            style={[
+              styles.totalRow,
+              { borderBottomWidth: 1, borderColor: "#000" },
+            ]}
+          >
+            <Text style={[styles.totalCell, { flex: 3 }]}>
+              Total Price (@{price})
+            </Text>
+            <Text style={[styles.totalCell, { flex: 1 }]}>
+              {(totalCFT * price).toFixed(2)}
+            </Text>
+          </View>
+          <Button
+            icon="printer"
+            mode="contained"
+            style={{
+              width: width / 3,
+              alignSelf: "center",
+              flex: 1,
+              marginTop: 10,
+            }}
             onPress={onSaveImageAsync}
           >
-            <Text style={{ color: "white", fontSize: 20, alignSelf: "center" }}>
-              Print
-            </Text>
-          </TouchableOpacity> */}
-          <Button
-          icon='printer'
-          mode="contained"
-          style={{width: width/3, alignSelf: 'center', flex: 1,marginTop: 10,}}
-           onPress={onSaveImageAsync}
-           >
             Print
           </Button>
         </View>
@@ -324,7 +316,7 @@ const styles = StyleSheet.create({
   dataRow: {
     flexDirection: "row",
     padding: 5,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   cell: {
     flex: 1,
