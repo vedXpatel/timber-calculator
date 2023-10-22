@@ -13,6 +13,7 @@ export const PurchaseHistory = ({navigation}) => {
     const [localData, setLocalData] = useState([]);
     const [tableView, setTableView] = useState(false);
     const [tempData, setTempData] = useState([]);
+    const [tempBill, setTempBill] = useState();
 
     const retrieveData = async () => {
             setLocalData([]);
@@ -60,7 +61,7 @@ export const PurchaseHistory = ({navigation}) => {
                     <Swipeout right={[
                         {
                             text: 'Delete',
-                            onPress: async() => await AsyncStorage.removeItem(JSON.stringify(JSON.parse(item).billNo)),
+                            onPress: async() => await AsyncStorage.removeItem(JSON.stringify(JSON.parse(item).tempBill)),
                             backgroundColor: 'red',
                         }
                     ]}>
@@ -68,14 +69,15 @@ export const PurchaseHistory = ({navigation}) => {
                             console.log(localData)
                         }
                     <TouchableOpacity style={styles.listContainer} onPress={async() => {
-                        await setTempData(item.data);
+                        await setTempData(JSON.parse(item).data);
+                        setTempBill(JSON.parse(item).tempBill);
                         setTableView(true);
                     }}>
                     <View>
                         <View style={styles.container}>
                             <View style={styles.leftColumn}>
                                 <Text style={styles.label}>Bill No.: </Text>
-                                <Text style={styles.value}>{JSON.parse(item).billNo}</Text>
+                                <Text style={styles.value}>{JSON.parse(JSON.parse(item).tempBill)}</Text>
                             </View>
                             <View style={styles.dateTimeColumn}>
                                 <View style={styles.rightColumn}>
@@ -94,7 +96,7 @@ export const PurchaseHistory = ({navigation}) => {
                 )
             })}
                     </View>
-                ) : <EditTable data={tempData} billNo={async() => await AsyncStorage.getItem('billNo')}/>
+                ) : <EditTable data={tempData} billNo={tempBill}/>
             }
         </ScrollView>
     )

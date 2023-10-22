@@ -6,7 +6,7 @@ export const EditTable = (props) => {
   const { data, billNumber,  } = props;
   // const [data, setData] = useState([]);
   const [tableIndex, setTableIndex] = useState(1);
-  const [dateTime, setDateTime] = useState("");
+  const [dateTime, setDateTime] = useState('');
   const [editable, setEditable] = useState(true);
 
   const editCell = (rowIndex, cellName, value) => {

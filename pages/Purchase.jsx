@@ -139,17 +139,21 @@ export const Purchase = ({ navigation }) => {
 
   // Function to Save Data to the Local Storage
   const [dataToBeSaved, setDataToBeSaved] = useState([]);
-  const saveDataToLocal = () => {
+  const saveDataToLocal = async() => {
     let temp = [];
-    oneToEleven.length > 0 ? temp.push(oneToEleven) : null;
-    TwelveToSeventeen.length > 0 ? temp.push(TwelveToSeventeen) : null;
-    EighteenToTwentyThree.length > 0 ? temp.push(EighteenToTwentyThree) : null;
-    TwentyFourToTwentyNine.length > 0 ? temp.push(TwentyFourToTwentyNine) : null;
-    ThirtyToThirtyFive.length > 0 ? temp.push(ThirtyToThirtyFive) : null;
-    ThirtySixToFortySeven.length > 0 ? temp.push(ThirtySixToFortySeven) : null;
-    FortyEightAbove.length > 0 ? temp.push(FortyEightAbove) : null;
+    await oneToEleven.length > 0 ? temp.push(oneToEleven) : null;
+    await TwelveToSeventeen.length > 0 ? temp.push(TwelveToSeventeen) : null;
+    await EighteenToTwentyThree.length > 0 ? temp.push(EighteenToTwentyThree) : null;
+    await TwentyFourToTwentyNine.length > 0 ? temp.push(TwentyFourToTwentyNine) : null;
+    await ThirtyToThirtyFive.length > 0 ? temp.push(ThirtyToThirtyFive) : null;
+    await ThirtySixToFortySeven.length > 0 ? temp.push(ThirtySixToFortySeven) : null;
+    await FortyEightAbove.length > 0 ? temp.push(FortyEightAbove) : null;
     setDataToBeSaved(temp);
   }
+
+  useEffect(() => {
+    saveDataToLocal();
+  },[oneToEleven,TwelveToSeventeen,EighteenToTwentyThree,TwentyFourToTwentyNine,ThirtyToThirtyFive,ThirtySixToFortySeven,FortyEightAbove])
 
   return (
     <ScrollView style={styles.parentView}>
@@ -406,8 +410,8 @@ export const Purchase = ({ navigation }) => {
           </TouchableOpacity>
               <TouchableOpacity
                   style={styles.printButton}
-                  onPress={() => {
-                    saveDataToLocal();
+                  onPress={async () => {
+                    await saveDataToLocal();
                     saveData(dataToBeSaved, moment().format('DD/MM/YY'), moment().format('hh:mm:ss'))
                   }
               }
