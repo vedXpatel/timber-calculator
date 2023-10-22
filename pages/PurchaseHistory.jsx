@@ -14,6 +14,8 @@ export const PurchaseHistory = ({navigation}) => {
     const [tableView, setTableView] = useState(false);
     const [tempData, setTempData] = useState([]);
     const [tempBill, setTempBill] = useState();
+    const [tempDate, setTempDate] = useState();
+    const [tempTime, setTempTime] = useState();
 
     const retrieveData = async () => {
             setLocalData([]);
@@ -71,6 +73,8 @@ export const PurchaseHistory = ({navigation}) => {
                     <TouchableOpacity style={styles.listContainer} onPress={async() => {
                         await setTempData(JSON.parse(item).data);
                         setTempBill(JSON.parse(item).tempBill);
+                        setTempDate(JSON.parse(item).date);
+                        setTempTime(JSON.parse(item).time);
                         setTableView(true);
                     }}>
                     <View>
@@ -96,7 +100,7 @@ export const PurchaseHistory = ({navigation}) => {
                 )
             })}
                     </View>
-                ) : <EditTable data={tempData} billNo={tempBill}/>
+                ) : <EditTable data={tempData} billNo={tempBill} date={tempDate} time={tempTime}/>
             }
         </ScrollView>
     )

@@ -3,15 +3,18 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  TextInput,
+  // TextInput,
   ScrollView,
   Text,
-  Button, TouchableOpacity,
+  // Button,
+  TouchableOpacity,
 } from "react-native";
-import { DataTable } from "react-native-paper";
+import { DataTable, TextInput, Button } from "react-native-paper";
+import DateTime from "../components/Purchase/DateTime";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
+
 export const JobWork = () => {
   const lengthRef = useRef();
   const girthRef = useRef();
@@ -100,9 +103,9 @@ export const JobWork = () => {
             await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
           } else {
             album = await MediaLibrary.createAlbumAsync(
-                albumName,
-                asset,
-                false
+              albumName,
+              asset,
+              false
             );
           }
           const assetResult = await MediaLibrary.getAssetsAsync({
@@ -126,7 +129,7 @@ export const JobWork = () => {
         <View>
           <View style={styles.container}>
             <TextInput
-              placeholder="Length"
+              label="Length"
               keyboardType="decimal-pad"
               onSubmitEditing={() => {
                 girthRef.current.focus();
@@ -139,13 +142,13 @@ export const JobWork = () => {
               ref={lengthRef}
             />
             <TextInput
-              placeholder="Girth"
+              label="Girth"
               keyboardType="decimal-pad"
               onSubmitEditing={async () => {
                 await lengthRef.current.focus();
                 calculateJobWork();
-                setLength();
-                setGirth();
+                setLength(null);
+                setGirth(null);
               }}
               clearButtonMode="while-editing"
               returnKeyType={"done"}
@@ -156,11 +159,21 @@ export const JobWork = () => {
             />
           </View>
           <Button
-            title="Add Price"
+            icon="currency-rupee"
+            mode="contained"
+            style={{
+              width: width / 2.2,
+              margin: 10,
+              alignSelf: "center",
+              justifyContent: "center",
+              backgroundColor: "lightblue",
+            }}
             onPress={() => {
               setPrintScreen(true);
             }}
-          />
+          >
+            Add Price
+          </Button>
         </View>
       )}
       {printScreen && !calculateScreen && (
@@ -175,182 +188,95 @@ export const JobWork = () => {
             onChangeText={setPrice}
           />
           <Button
-            title="Calculate"
+            icon="plus"
+            mode="contained"
+            style={{
+              width: width / 2.2,
+              margin: 10,
+              alignSelf: "center",
+              justifyContent: "center",
+              backgroundColor: "lightblue",
+            }}
             onPress={() => {
               calculateTotalValues();
               setCalculateScreen(true);
             }}
-          />
+          >
+            Calculate
+          </Button>
         </>
       )}
       {calculateScreen && (
         <View>
-          <Text>Date: {Date.UTC()} Time: </Text>
-          <DataTable
-            style={{
-              position: "relative",
-              left: -width / 5,
-              width: width + width / 5,
-            }}
-          >
-            <DataTable.Header
-              style={{
-                borderBottomWidth: 1,
-                borderBottomColor: "black",
-                borderColor: "black",
-                overflow: "hidden",
-                marginTop: -height / 75,
-              }}
-            >
-              <DataTable.Title
-                textStyle={{ fontSize: 17, fontWeight: "bold" }}
-                numeric
-              >
-                Sr.
-              </DataTable.Title>
-              <DataTable.Title
-                textStyle={{ fontSize: 17, fontWeight: "bold" }}
-                style={{ position: "relative", left: 20 }}
-                numeric
-              >
-                Length (ft)
-              </DataTable.Title>
-              <DataTable.Title
-                textStyle={{ fontSize: 17, fontWeight: "bold" }}
-                style={{ position: "relative", left: 20 }}
-                numeric
-              >
-                Girth (in)
-              </DataTable.Title>
-              <DataTable.Title
-                textStyle={{ fontSize: 17, fontWeight: "bold" }}
-                numeric
-              >
-                Cubic MTR
-              </DataTable.Title>
-            </DataTable.Header>
+          <DateTime/>
+          <View style={styles.table}>
+            <View style={styles.headerRow}>
+              <Text style={styles.headerCell}>Sr</Text>
+              <Text style={styles.headerCell}>Length (ft) </Text>
+              <Text style={styles.headerCell}>Girth (in)</Text>
+              <Text style={[styles.headerCell, { flex: 1 }]}>Cubic MTR</Text>
+            </View>
+          </View>
             {list.map((item, index) => (
-              <DataTable.Row
-                key={index}
-                style={{
-                  marginTop: -height / 75,
-                  marginBottom: -height/70,
-                  // padding: 10,
-                }}
-              >
-                <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
-                  {index + 1}
-                </DataTable.Cell>
-                <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
-                  {item.length}
-                </DataTable.Cell>
-                <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
-                  {item.girth}
-                </DataTable.Cell>
-                <DataTable.Cell textStyle={{ fontSize: 17 }} numeric>
+              <View style={styles.dataRow} key={index}>
+                <Text style={styles.cell}>{index + 1}</Text>
+                <Text style={styles.cell}>{item.length}</Text>
+                <Text style={styles.cell}>{item.girth}</Text>
+                <Text style={[styles.cell, { flex: 1 }]}>
                   {item.CMT.toFixed(4)}
-                </DataTable.Cell>
-              </DataTable.Row>
+                </Text>
+              </View>
             ))}
-            <DataTable.Row
-              style={{
-                borderTopWidth: 1,
-                borderColor: "black",
-                borderBottomWidth: 0,
-                marginLeft: 20,
-                marginBottom: -height / 50,
-              }}
+            <View
+              style={[
+                styles.totalRow,
+                { borderTopWidth: 1, borderColor: "#000" },
+              ]}
             >
-              <DataTable.Cell
-                textStyle={{ fontSize: 17, fontWeight: "bold" }}
-                numeric
-              >
-                <Text>Total CMT</Text>
-              </DataTable.Cell>
-              <DataTable.Cell
-                textStyle={{ fontSize: 17, fontWeight: "bold" }}
-                numeric
-              >
-                <Text>:</Text>
-              </DataTable.Cell>
-              <DataTable.Cell
-                textStyle={{ fontSize: 17, fontWeight: "bold" }}
-                numeric
-              >
-                <Text>{totalCMT.toFixed(4)}</Text>
-              </DataTable.Cell>
-            </DataTable.Row>
-            <DataTable.Row
-              style={{
-                borderBottomWidth: 0,
-                marginTop: -height / 75,
-                marginBottom: -height / 50,
-                marginLeft: 20,
-              }}
+              <Text style={[styles.totalCell, { flex: 3 }]}>Total CMT</Text>
+              <Text style={[styles.totalCell, { flex: 1 }]}>
+                {totalCMT.toFixed(4)}
+              </Text>
+            </View>
+            <View
+              style={[
+                styles.totalRow,
+                
+              ]}
             >
-              <DataTable.Cell
-                textStyle={{ fontSize: 17, fontWeight: "bold" }}
-                numeric
-              >
-                <Text>Total CFT</Text>
-              </DataTable.Cell>
-              <DataTable.Cell
-                textStyle={{ fontSize: 17, fontWeight: "bold" }}
-                numeric
-              >
-                <Text>:</Text>
-              </DataTable.Cell>
-              <DataTable.Cell
-                textStyle={{ fontSize: 17, fontWeight: "bold" }}
-                numeric
-              >
-                <Text>{totalCFT.toFixed(4)}</Text>
-              </DataTable.Cell>
-            </DataTable.Row>
-            <DataTable.Row
-              style={{
-                borderBottomWidth: 1,
-                borderBottomColor: "black",
-                borderColor: "black",
-                overflow: "hidden",
-                marginTop: -height / 75,
-                // marginBottom: -height/50,
-                marginLeft: 20,
-              }}
+              <Text style={[styles.totalCell, { flex: 3 }]}>Total CFT</Text>
+              <Text style={[styles.totalCell, { flex: 1 }]}>
+                {totalCFT.toFixed(4)}
+              </Text>
+            </View>
+            <View
+              style={[
+                styles.totalRow,
+                { borderBottomWidth: 1, borderColor: "#000" },
+              ]}
             >
-              <DataTable.Cell
-                textStyle={{
-                  fontSize: 17,
-                  fontWeight: "bold",
-                  left: width / 3.3,
-                  width: width / 2,
-                }}
-                numeric
-              >
-                <Text>Total Price (@ {price})</Text>
-              </DataTable.Cell>
-              <DataTable.Cell
-                textStyle={{ fontSize: 17, fontWeight: "bold" }}
-                numeric
-              >
-                <Text>:</Text>
-              </DataTable.Cell>
-              <DataTable.Cell
-                textStyle={{ fontSize: 17, fontWeight: "bold" }}
-                numeric
-              >
-                <Text>{(totalCFT * price).toFixed(2)}</Text>
-              </DataTable.Cell>
-            </DataTable.Row>
-          </DataTable>
-          <TouchableOpacity
-              style={styles.printButton}
-              onPress={onSaveImageAsync}
+              <Text style={[styles.totalCell, { flex: 3 }]}>
+                Total Price (@{price})
+              </Text>
+              <Text style={[styles.totalCell, { flex: 1 }]}>
+                {(totalCFT * price).toFixed(2)}
+              </Text>
+            </View>
+          {/* <TouchableOpacity
+            style={styles.printButton}
+            onPress={onSaveImageAsync}
           >
             <Text style={{ color: "white", fontSize: 20, alignSelf: "center" }}>
               Print
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <Button
+          mode="contained"
+          style={{width: width/3, alignSelf: 'center', flex: 1,marginTop: 10,}}
+           onPress={onSaveImageAsync}
+           >
+            Print
+          </Button>
         </View>
       )}
     </ScrollView>
@@ -366,12 +292,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   input: {
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 10,
-    fontSize: 20,
+    // fontSize: 20,
     width: width / 3,
-    padding: 10,
     alignSelf: "center",
     margin: 10,
   },
@@ -387,5 +309,34 @@ const styles = StyleSheet.create({
   },
   parentView: {
     height: height,
+  },
+  headerRow: {
+    flexDirection: "row",
+    backgroundColor: "#ffffff",
+    padding: 5,
+    borderWidth: 1,
+    borderColor: "black",
+    paddingLeft: 20,
+  },
+  headerCell: {
+    flex: 1,
+    fontWeight: "bold",
+  },
+  dataRow: {
+    flexDirection: "row",
+    padding: 5,
+    backgroundColor: 'white',
+  },
+  cell: {
+    flex: 1,
+  },
+  totalRow: {
+    flexDirection: "row",
+    backgroundColor: "#ffffff",
+    padding: 5,
+  },
+  totalCell: {
+    flex: 1,
+    fontWeight: "bold",
   },
 });
