@@ -88,7 +88,6 @@ export const PurchaseHistory = ({ navigation }) => {
                   },
                 ]}
               >
-                {console.log(localData)}
                 <TouchableOpacity
                   style={styles.listContainer}
                   onPress={async () => {

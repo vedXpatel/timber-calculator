@@ -107,8 +107,6 @@ export const categoryTotalCFT = (
     temp7 += +FortyEightAbove[i].CFT;
   }
   setOne(temp);
-  console.log(temp);
-  // console.log(one);
   setTwo(temp2);
   setThree(temp3);
   setFour(temp4);
@@ -144,7 +142,7 @@ export const getTotalPrice = (
   const sevenPrice = +seven * +FortyEightAbovePrice;
 
   // Calculate the total price, considering undefined variables as 0
-  const totalPrice =
+  let totalPrice =
     (onePrice ? onePrice : 0) +
     (twoPrice ? twoPrice : 0) +
     (threePrice ? threePrice : 0) +
@@ -155,7 +153,7 @@ export const getTotalPrice = (
   setGrandPrice(totalPrice);
 
   // Calculate the total CFT, considering undefined variables as 0
-  const totalCFT =
+  let totalCFT =
     (one ? one : 0) +
     (two ? two : 0) +
     (three ? three : 0) +

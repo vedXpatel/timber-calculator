@@ -48,7 +48,6 @@ export const JobWork = () => {
     let tempCFT = 0,
       tempCMT = 0;
     for (let i = 0; i < list.length; ++i) {
-      console.log(list[i].CMT);
       tempCFT += list[i].CFT;
       tempCMT += list[i].CMT;
     }
