@@ -14,7 +14,6 @@ yarn tunnel
 <li> 
 Migrating the project to typescript
 </li>
-</ol>
 
 ```
 Raw BT settings:
@@ -24,3 +23,17 @@ Automatic Raw BT settings:
 Add Folder: Pictures/auto print
 Advanced Settings: inside settings > How Print Images: Black and White (free)
 ```
+
+<li>
+Build Command
+</li>
+
+For Preview:
+```agsl
+eas build -p android --profile preview
+```
+For Production:
+```
+eas build
+```
+</ol>
