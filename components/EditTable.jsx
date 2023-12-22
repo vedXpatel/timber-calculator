@@ -34,46 +34,46 @@ export const EditTable = (props) => {
     let newFive = five;
     let newSix = six;
     let newSeven = seven;
-  
+
     for (let index = 0; index < data.length; index++) {
       if (data[index][0].girth > 0 && data[index][0].girth < 12) {
         for (let i = 0; i < data[index].length; i++) {
           newOne += +data[index][i].CFT;
         }
       }
-      else if (data[index][0].girth < 18){
+      else if (data[index][0].girth < 18) {
         for (let i = 0; i < data[index].length; i++) {
           newTwo += +data[index][i].CFT;
         }
       }
-      else if (data[index][0].girth < 24){
+      else if (data[index][0].girth < 24) {
         for (let i = 0; i < data[index].length; i++) {
           newThree += +data[index][i].CFT;
         }
       }
-      else if (data[index][0].girth < 30){
+      else if (data[index][0].girth < 30) {
         for (let i = 0; i < data[index].length; i++) {
           newFour += +data[index][i].CFT;
         }
       }
-      else if (data[index][0].girth < 36){
+      else if (data[index][0].girth < 36) {
         for (let i = 0; i < data[index].length; i++) {
           newFive += +data[index][i].CFT;
         }
       }
-      else if (data[index][0].girth < 48){
+      else if (data[index][0].girth < 48) {
         for (let i = 0; i < data[index].length; i++) {
           newSix += +data[index][i].CFT;
         }
       }
-      else if (data[index][0].girth >= 48){
+      else if (data[index][0].girth >= 48) {
         for (let i = 0; i < data[index].length; i++) {
           newSeven += +data[index][i].CFT;
         }
       }
-      
+
     }
-  
+
     setOne(newOne);
     setTwo(newTwo);
     setThree(newThree);
@@ -83,17 +83,17 @@ export const EditTable = (props) => {
     setSeven(newSeven);
 
     let tempCFT =
-    (one ? one : 0) +
-    (two ? two : 0) +
-    (three ? three : 0) +
-    (four ? four : 0) +
-    (five ? five : 0) +
-    (six ? six : 0) +
-    (seven ? seven : 0);
+      (one ? one : 0) +
+      (two ? two : 0) +
+      (three ? three : 0) +
+      (four ? four : 0) +
+      (five ? five : 0) +
+      (six ? six : 0) +
+      (seven ? seven : 0);
     setGrandCFT(tempCFT);
   }
 
-  useEffect(() => categorizeCft(),[])
+  useEffect(() => categorizeCft(), [])
 
   const editCell = (rowIndex, cellName, value) => { };
 
@@ -145,31 +145,31 @@ export const EditTable = (props) => {
             <Text style={[styles.totalCell, { flex: 3 }]}>Total CFT</Text>
             {
               item[0].girth > 0 && item[0].girth < 11 &&
-            <Text style={[styles.totalCell, { flex: 1 }]}>{one.toFixed(4)}</Text>
+              <Text style={[styles.totalCell, { flex: 1 }]}>{one.toFixed(4)}</Text>
             }
             {
               item[0].girth < 18 && item[0].girth >= 11 &&
-            <Text style={[styles.totalCell, { flex: 1 }]}>{two.toFixed(4)}</Text>
+              <Text style={[styles.totalCell, { flex: 1 }]}>{two.toFixed(4)}</Text>
             }
             {
               item[0].girth < 24 && item[0].girth >= 18 &&
-            <Text style={[styles.totalCell, { flex: 1 }]}>{three.toFixed(4)}</Text>
+              <Text style={[styles.totalCell, { flex: 1 }]}>{three.toFixed(4)}</Text>
             }
             {
               item[0].girth < 30 && item[0].girth >= 24 &&
-            <Text style={[styles.totalCell, { flex: 1 }]}>{four.toFixed(4)}</Text>
+              <Text style={[styles.totalCell, { flex: 1 }]}>{four.toFixed(4)}</Text>
             }
             {
               item[0].girth < 36 && item[0].girth >= 30 &&
-            <Text style={[styles.totalCell, { flex: 1 }]}>{five.toFixed(4)}</Text>
+              <Text style={[styles.totalCell, { flex: 1 }]}>{five.toFixed(4)}</Text>
             }
             {
               item[0].girth < 48 && item[0].girth >= 36 &&
-            <Text style={[styles.totalCell, { flex: 1 }]}>{six.toFixed(4)}</Text>
+              <Text style={[styles.totalCell, { flex: 1 }]}>{six.toFixed(4)}</Text>
             }
             {
               item[0].girth > 48 &&
-            <Text style={[styles.totalCell, { flex: 1 }]}>{seven.toFixed(4)}</Text>
+              <Text style={[styles.totalCell, { flex: 1 }]}>{seven.toFixed(4)}</Text>
             }
             {/* <Text style={[styles.totalCell, { flex: 1 }]}>{totalCFT.toFixed(4)}</Text> */}
           </View>
@@ -185,28 +185,28 @@ export const EditTable = (props) => {
         </View>
       ))}
       <View
-            style={[
-              styles.totalRow
-            ]}
-          >
-            <Text style={[styles.totalCell, { flex: 3 }]}>Grand CFT</Text>
-            <Text style={[styles.totalCell, { flex: 1 }]}>{((one ? one : 0) +
-    (two ? two : 0) +
-    (three ? three : 0) +
-    (four ? four : 0) +
-    (five ? five : 0) +
-    (six ? six : 0) +
-    (seven ? seven : 0)).toFixed(4)}</Text>
-          </View>
+        style={[
+          styles.totalRow
+        ]}
+      >
+        <Text style={[styles.totalCell, { flex: 3 }]}>Grand CFT</Text>
+        <Text style={[styles.totalCell, { flex: 1 }]}>{((one ? one : 0) +
+          (two ? two : 0) +
+          (three ? three : 0) +
+          (four ? four : 0) +
+          (five ? five : 0) +
+          (six ? six : 0) +
+          (seven ? seven : 0)).toFixed(4)}</Text>
+      </View>
       <View
-            style={[
-              styles.totalRow,
-              {borderBottomWidth: 1, borderColor:'black'},
-            ]}
-          >
-            <Text style={[styles.totalCell, { flex: 3 }]}>Grand Price</Text>
-            <Text style={[styles.totalCell, { flex: 1 }]}>{0}</Text>
-          </View>
+        style={[
+          styles.totalRow,
+          { borderBottomWidth: 1, borderColor: 'black' },
+        ]}
+      >
+        <Text style={[styles.totalCell, { flex: 3 }]}>Grand Price</Text>
+        <Text style={[styles.totalCell, { flex: 1 }]}>{0}</Text>
+      </View>
       <Button
         title={editable ? "Add Row" : "Not Editable"}
         disabled={!editable}
