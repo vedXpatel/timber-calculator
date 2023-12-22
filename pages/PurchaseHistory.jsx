@@ -74,7 +74,7 @@ export const PurchaseHistory = ({ navigation }) => {
           >
             Refresh
           </Button>
-          {localData.map((item, index) => {
+          {localData.length > 0 && localData.map((item, index) => {
             return (
               <Swipeout
                 right={[
