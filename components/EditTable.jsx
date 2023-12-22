@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet } from "react-native";
 import { TableHeader } from "./TableHeader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TextInput } from "./EditTable/TextInput";
 
 export const EditTable = (props) => {
   const { data, billNo, date, time } = props;
   const [dateTime, setDateTime] = useState("");
+  const [editData, setEditData] = useState(data);
   const [editable, setEditable] = useState(true);
   const [totalCFT, setTotalCFT] = useState(0);
   const [grandCFT, setGrandCFT] = useState(0);
@@ -127,12 +129,12 @@ export const EditTable = (props) => {
       ))}
       {data.map((item, index) => (
         <View>
-          {console.log(`item inside purchase history: ${item}`)}
+          {console.log(`item inside purchase history: ${index}`)}
           {item.map((i, j) => (
             <View style={styles.dataRow} key={j}>
               <Text style={styles.cell}>1</Text>
-              <Text style={styles.cell}>{i.length}</Text>
-              <Text style={styles.cell}>{i.girth}</Text>
+              <TextInput defaultValue={i.length} data={data} index={index} type={'length'} categoryIndex={j} />
+              <TextInput defaultValue={i.girth} data={data} index={index} type={'girth'} categoryIndex={j} />
               <Text style={[styles.cell, { flex: 1 }]}>{i.CFT.toFixed(4)}</Text>
             </View>
           ))}
@@ -182,6 +184,10 @@ export const EditTable = (props) => {
             <Text style={[styles.totalCell, { flex: 3 }]}>Total Price</Text>
             {/* <Text style={[styles.totalCell, { flex: 1 }]}>{(cft * price).toFixed(2)}</Text> */}
           </View>
+          <Button
+        title={editable ? "Add Row" : "Not Editable"}
+        disabled={!editable}
+      />
         </View>
       ))}
       <View
